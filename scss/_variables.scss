@@ -6,24 +6,24 @@
 // Colors
 // -----------------------------------------------------------------------------
 
-$c-white:				    #fff;
-$c-white-darker:			darken($c-white, 5%);
+$c-white:                  #ffffff;
+$c-white-darker:           #f0f0f0;
 
-$c-base-alt:				#ffb03b;
-$c-base-alt-darker:			#b64926;
+$c-base:                   #1E90FF;  // Dodger Blue
+$c-base-darker:            #104E8B;  // Azul intenso para hover/elementos activos
 
-$c-base:					#0074d9;
-$c-base-darker:				#004b8d;
+$c-base-alt:               #6CA0DC;  // Azul más suave
+$c-base-alt-darker:        #3B5998;  // Azul profundo para contraste
 
-$c-success:					#9ee379;
-$c-success-darker:			#4caf50;
+$c-success:                #7FDBB6;  // Verde suave agradable
+$c-success-darker:         #28A745;  // Verde para estados confirmados
 
-$c-failure:					#b9121b;
-$c-failure-darker:			#8e001c;
+$c-failure:                #FF6B6B;  // Rojo más moderno y suave
+$c-failure-darker:         #C0392B;  // Rojo intenso para errores
 
-$c-bg:						#5391fa;
+$c-bg:                     #E6F0FA;  // Azul muy claro para fondo general
+$c-red:                     #D32F2F; // Rojo estándar
 
-$c-red:						#d90000;
 
 
 // Sizes

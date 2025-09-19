@@ -2,169 +2,150 @@
 // -----------------------------------------------------------------------------
 
 var words = [
-	new Word(0, "A", "Empieza por A:", " Relato breve de un acontecimiento extraño, curioso o divertido, generalmente ocurrido a la persona que lo cuenta.", "Anecdota"),
-	new Word(1, "B", "Empieza por B:", " Pasta dulce y esponjosa, hecha con harina, huevos, levadura y otros ingredientes, que puede tener distintas formas", "Bollo"),
-	new Word(2, "C", "Empieza por C:", " Corriente de agua que cae desde cierta altura a causa de un brusco desnivel en su cauce, especialmente en un rio", "Cascada"),
-	new Word(3, "D", "Empieza por D:", " Arma blanca de hoja corta, ancha y puntiaguda, parecida a la espada pero de menor tamaño", "Daga"),
-	new Word(4, "E", "Empieza por E:", " Línea curva que describe varias vueltas alrededor de un punto, alejándose cada vez más de él", "Espiral"),
-	new Word(5, "F", "Contiene la F:", " Que está descompuesto o podrido por la acción de diversos factores y determinados microorganismos", "Putrefacto"),
-	new Word(6, "G", "Empieza por G:", " Que se comporta de manera ruda, tosca o grosera", "Garrulo"),
-	new Word(7, "H", "Contiene la H:", " Persona o animal que es grueso y de poca altura", "Rechoncho"),
-	new Word(8, "I", "Empieza por I:", " Que está en el espacio existente entre dos astros, o que tiene relación con él", "Interestelar"),
-	new Word(9, "J", "Empieza por J:", " Chile picante de unos 5 cm de largo, carnoso y de punta redonda, que se usa para condimentar ciertos guisos", "Jalapeño"),
-	new Word(10, "L", "Contiene la L:", " Hombre pequeño y débil", "Homunculo"),
-	new Word(11, "M", "Empieza por M:", " Persona que sufre o muere por defender su religión o sus ideales. ", "Martir"),
-	new Word(12, "N", "Empieza por N:", " Tubo fluorescente que produce una luz brillante.", "Neon"),
-	new Word(13, "Ñ", "Contiene la Ñ:", " Dar a una cosa un color distinto del que tiene.", "Teñir"),
-	new Word(14, "O", "Empieza por O:", " Que conoce todas las cosas reales y posibles.", "Omnisciente"),
-	new Word(15, "P", "Contiene la P:", " Calzado de lona, con suela de esparto, cáñamo o goma, que se sujeta al pie por presión o con unas cintas que se atan al tobillo.", "Alpargata"),
-	new Word(16, "Q", "Empieza por Q:", " Que se puede romper fácilmente.", "Quebradizo"),
-	new Word(17, "R", "Empieza por R:", " Operación quirúrgica para restaurar la nariz.", "Rinoplastia"),
-	new Word(18, "S", "Contiene la S:", " Falta de cuidado en la forma de vestir y en el aseo personal.", "Desaliño"),
-	new Word(19, "T", "Empieza por T:", " Persona alocada, bulliciosa y molesta.", "Tabardillo"),
-	new Word(20, "U", "Contiene la U:", " Persona que rehúye el trato de otras personas y rechaza las atenciones y muestras de cariño.", "Huraño"),
-	new Word(21, "V", "Empieza por V:", " Tributo que el vasallo pagaba a su señor o servicio que le prestaba según este vínculo.", "Vasallaje"),
-	new Word(22, "X", "Contiene la X:", " Punto culminante o de mayor satisfacción de la excitación sexual en las zonas erógenas o sexuales.", "Climax"),
-	new Word(23, "Y", "Contiene la Y:", " Toro castrado, que se utiliza como animal de tiro y del cual se aprovecha su carne.", "Buey"),
-	new Word(24, "Z", "Contiene la Z:", " Que es tonto o tiene poca rapidez mental.", "Pazguato")
+    new Word(0,"A","Anecdota"),
+    new Word(1,"B","Bollo"),
+    new Word(2,"C","Cascada"),
+    new Word(3,"D","Daga"),
+    new Word(4,"E","Espiral"),
+    new Word(5,"F","Putrefacto"),
+    new Word(6,"G","Garrulo"),
+    new Word(7,"H","Rechoncho"),
+    new Word(8,"I","Interestelar"),
+    new Word(9,"J","Jalapeño"),
+	new Word(10,"K","Jalapeño"),
+    new Word(11,"L","Homunculo"),
+    new Word(12,"M","Martir"),
+    new Word(13,"N","Neon"),
+    new Word(14,"O","Omnisciente"),
+    new Word(15,"P","Alpargata"),
+    new Word(16,"Q","Quebradizo"),
+    new Word(17,"R","Rinoplastia"),
+    new Word(18,"S","Desaliño"),
+    new Word(19,"T","Tabardillo"),
+    new Word(20,"U","Huraño"),
+    new Word(21,"V","Vasallaje"),
+	new Word(22,"V","Vasallaje"),
+    new Word(23,"X","Climax"),
+    new Word(24,"Y","Buey"),
+    new Word(25,"Z","Pazguato")
 ];
 
-// Functions
-// -----------------------------------------------------------------------------
-
-function Word(idNumber, letter, hint, definition, word, correct) {
-	this.idNumber = idNumber;
-	this.letter = letter;
-	this.hint = hint;
-	this.definition = definition;
-	this.word = word;
-	this.correct = null;
+// Word constructor
+function Word(idNumber, letter, word) {
+    this.idNumber = idNumber;
+    this.letter = letter;
+    this.word = word;
+    this.correct = null;
 }
 
-function showDefinition(pos) {
-	$("#js--hint").html(words[pos].hint);
-	$("#js--definition").html(words[pos].definition);
+var pending = words.map((_,i) => i); // indices pendientes
+var remainingWords = pending.length;
+
+
+var currentIndex = 0;
+
+function showNextWord() {
+    if (words.every(w => w.correct !== null)) {
+        endGame();
+        return;
+    }
+
+    // Buscar la siguiente palabra sin responder
+    let found = false;
+    let startIndex = currentIndex;
+
+    do {
+        let w = words[currentIndex];
+        if (w.correct === null) {
+            found = true;
+            break;
+        }
+        currentIndex = (currentIndex + 1) % words.length;
+    } while (currentIndex !== startIndex);
+
+    let w = words[currentIndex];
+    $("#js--user-answer").val("");
+    $("#js--definition").html("Letra: " + w.letter);
 }
 
-var remainingWords = 25;
+// Marcar respuesta
+function markAnswer(result) {
+    let w = words[currentIndex];
 
-function checkAnswer(pos) {
-	var userAnswer = $("#js--user-answer").val().toLowerCase();
-	if (userAnswer == words[pos].word.toLowerCase()) {
-		words[pos].correct = true;
-		$(".circle .item").eq(words[pos].idNumber).addClass("item--success");
+    if (result === "bien") {
+        w.correct = true;
+        $(".circle .item").eq(w.idNumber).addClass("item--success");
+        // ir a siguiente pendiente
+        currentIndex = (currentIndex + 1) % words.length;
+    } else if (result === "mal") {
+        w.correct = false;
+        $(".circle .item").eq(w.idNumber).addClass("item--failure");
+        currentIndex = (currentIndex + 1) % words.length;
+    } else if (result === "pasapalabra") {
+        currentIndex = (currentIndex + 1) % words.length;
+    }
 
-	} else {
-		words[pos].correct = false;
-		$(".circle .item").eq(words[pos].idNumber).addClass("item--failure");
-	}
-	remainingWords--;
-	$("js--score").html(remainingWords);
-
-	return count++;
+    showNextWord();
 }
 
-function pasapalabra(pos) {
-	var w = words.splice(pos, 1)[0];
-	words.push(w);
 
-}
 
-function continuePlaying() {
-	if (count != 25) {
-		$("#js--user-answer").val("");
-		showDefinition(count);
-	} else {
-		endGame();
-	}
-}
-
-var seconds;
-var temp;
-
-function countdown() {
-	seconds = $("#js--timer").html();
-	seconds = parseInt(seconds, 10);
-	if (seconds == 1) {
-		temp = $("#js--timer");
-		temp.innerHTML = 0;
-		endGame();
-		return;
-	}
-	seconds--;
-	temp = $("#js--timer");
-	temp.html(seconds);
-	timeoutMyOswego = setTimeout(countdown, 1000);
-}
-
+// Función de fin de juego
 function endGame() {
-	$("#js--question-controls").addClass("hidden");
-	$("#js--pa-controls").removeClass("hidden");
-	$("#js--end-title").html("Fin de partida!");
-	$("#js--end-subtitle").html(showUserScore());
-	$("#js--close").addClass("hidden")
+    $("#js--question-controls").addClass("hidden");
+    $("#js--pa-controls").removeClass("hidden");
+
+    let score = words.filter(w => w.correct).length;
+    $("#js--end-title").html("Fin de partida!");
+    $("#js--end-subtitle").html("Has conseguido " + score + " aciertos.");
+    $("#js--close").addClass("hidden");
 }
 
-function showUserScore() {
-	var counter = 0;
-	for (i = 0; i < words.length; i++) {
-		if (words[i].correct == true) {
-			counter++;
-		}
-	}
-	return "Has conseguido un total de " + counter + " aciertos.";
+// Countdown
+var seconds, timeoutMyOswego;
+function countdown() {
+    seconds = parseInt($("#js--timer").html(),10);
+    if (seconds <= 0) {
+        $("#js--timer").html(0);
+        endGame();
+        return;
+    }
+    seconds--;
+    $("#js--timer").html(seconds);
+    timeoutMyOswego = setTimeout(countdown,1000);
 }
 
-
-// Main Program
-// ----------------------------------------------------------------------------- */
-
-// New game
-var count = 0; // Counter for answered words
+// Eventos
 $("#js--new-game").click(function() {
-	$("#js--ng-controls").addClass("hidden");
-	$("#js--question-controls").removeClass("hidden");
-	$("#js--close").removeClass("hidden");
-	showDefinition(count);
-	countdown();
+    $("#js--ng-controls").addClass("hidden");
+    $("#js--question-controls").removeClass("hidden");
+    $("#js--close").removeClass("hidden");
+
+    pending = words.map((_,i) => i);
+    remainingWords = pending.length;
+    showNextWord();
+    countdown();
 });
 
-// Send the answer
-$("#js--send").click(function() {
-	checkAnswer(count);
-	continuePlaying();
+$("#js--bien").click(() => markAnswer("bien"));
+$("#js--mal").click(() => markAnswer("mal"));
+$("#js--pasapalabra").click(() => markAnswer("pasapalabra"));
+
+// Enviar respuesta con ENTER
+$("#js--question-controls").keypress(function(event){
+    if(event.which == 13) {
+        let pos = pending[0];
+        let userAnswer = $("#js--user-answer").val().toLowerCase();
+        if(userAnswer === words[pos].word.toLowerCase()) {
+            markAnswer("bien");
+        } else if(userAnswer === "") {
+            markAnswer("pasapalabra");
+        } else {
+            markAnswer("mal");
+        }
+    }
 });
 
-// Key bindings for send the answer
-$("#js--question-controls").keypress(function(event) {
-	var keycode = (event.keyCode ? event.keyCode : event.which);
-	if (keycode == "13") {
-		checkAnswer(count);
-		continuePlaying();
-	}
-});
-
-// Skip the word
-$("#js--pasapalabra").click(function() {
-	pasapalabra(count);
-	continuePlaying();
-});
-
-// Key bindings for skip the word
-$("#js--question-controls").keypress(function(event) {
-	var keycode = (event.keyCode ? event.keyCode : event.which);
-	if (keycode == "32") {
-		pasapalabra(count);
-		continuePlaying();
-	}
-});
-
-// Play again
-$("#js--pa").click(function() {
-	location.reload()
-});
-
-// End the game
-$("#js--close").click(function() {
-	endGame();
-});
+// Volver a jugar
+$("#js--pa").click(() => location.reload());
+$("#js--close").click(() => endGame());
