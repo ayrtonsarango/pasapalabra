@@ -110,7 +110,7 @@ function countdown() {
         timeoutMyOswego = setTimeout(countdown,1000);
         return;
     }
-    seconds = parseInt($("#js--timer").html(),10);
+    seconds = parseInt($("#js--timer").html(),600);
     if (seconds <= 0) {
         $("#js--timer").html(0);
         endGame();
