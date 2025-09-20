@@ -103,14 +103,11 @@ function endGame() {
     $("#js--close").addClass("hidden");
 }
 
-// Countdown
-var seconds, timeoutMyOswego;
 function countdown() {
     if (paused) {
         timeoutMyOswego = setTimeout(countdown,1000);
         return;
     }
-    seconds = parseInt($("#js--timer").html(),600);
     if (seconds <= 0) {
         $("#js--timer").html(0);
         endGame();
@@ -129,6 +126,12 @@ $("#js--new-game").click(function() {
 
     pending = words.map((_,i) => i);
     remainingWords = pending.length;
+    currentIndex = 0;
+
+    // Leer tiempo desde input
+    seconds = parseInt($("#js--time-input").val(), 10) || 10;
+    $("#js--timer").html(seconds);
+
     showNextWord();
     countdown();
 });

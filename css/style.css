@@ -726,6 +726,17 @@ body {
     color: #fff;
     text-transform: uppercase; }
 
+#js--time-config label {
+    color: #fff;
+    font-weight: 400; /* opcional, para que coincida con el estilo de la página */
+}
+#js--time-input.subtitle {
+    background-color: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+}
+
 footer {
   width: 50%;
   height: 5vh;
