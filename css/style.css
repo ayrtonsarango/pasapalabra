@@ -541,7 +541,7 @@ body {
     .circle .item--failure {
       background-image: radial-gradient(circle, #b9121b, #8e001c); }
     .circle .item--skip {
-      background-image: radial-gradient(circle, #f9e79f, #f1c40f);}
+      background-image: radial-gradient(circle, #cccccc, #999999);}
 .scoreboard {
   margin: 0 0 1em 2em;
   padding: 0;
@@ -648,10 +648,11 @@ body {
     }
 
     .controls-container .btn--yellow {
-      background-color: #f1c40f; /* amarillo vivo */
+      background-color: #cccccc; /* gris claro */
     }
+
     .controls-container .btn--yellow:hover {
-      background-color: #d4ac0d; /* amarillo más oscuro */
+      background-color: #999999; /* gris más oscuro */
     }
 
 .ng-controls {
