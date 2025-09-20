@@ -449,56 +449,33 @@ body {
     width: 1.25em;
     height: 1.25em;
     margin: -0.625em; }
-    .circle > *:nth-of-type(1) {
-      transform: rotate(270deg) translate(10.6875em) rotate(-270deg); }
-    .circle > *:nth-of-type(2) {
-      transform: rotate(284.4deg) translate(10.6875em) rotate(-284.4deg); }
-    .circle > *:nth-of-type(3) {
-      transform: rotate(298.8deg) translate(10.6875em) rotate(-298.8deg); }
-    .circle > *:nth-of-type(4) {
-      transform: rotate(313.2deg) translate(10.6875em) rotate(-313.2deg); }
-    .circle > *:nth-of-type(5) {
-      transform: rotate(327.6deg) translate(10.6875em) rotate(-327.6deg); }
-    .circle > *:nth-of-type(6) {
-      transform: rotate(342deg) translate(10.6875em) rotate(-342deg); }
-    .circle > *:nth-of-type(7) {
-      transform: rotate(356.4deg) translate(10.6875em) rotate(-356.4deg); }
-    .circle > *:nth-of-type(8) {
-      transform: rotate(370.8deg) translate(10.6875em) rotate(-370.8deg); }
-    .circle > *:nth-of-type(9) {
-      transform: rotate(385.2deg) translate(10.6875em) rotate(-385.2deg); }
-    .circle > *:nth-of-type(10) {
-      transform: rotate(399.6deg) translate(10.6875em) rotate(-399.6deg); }
-    .circle > *:nth-of-type(11) {
-      transform: rotate(414deg) translate(10.6875em) rotate(-414deg); }
-    .circle > *:nth-of-type(12) {
-      transform: rotate(428.4deg) translate(10.6875em) rotate(-428.4deg); }
-    .circle > *:nth-of-type(13) {
-      transform: rotate(442.8deg) translate(10.6875em) rotate(-442.8deg); }
-    .circle > *:nth-of-type(14) {
-      transform: rotate(457.2deg) translate(10.6875em) rotate(-457.2deg); }
-    .circle > *:nth-of-type(15) {
-      transform: rotate(471.6deg) translate(10.6875em) rotate(-471.6deg); }
-    .circle > *:nth-of-type(16) {
-      transform: rotate(486deg) translate(10.6875em) rotate(-486deg); }
-    .circle > *:nth-of-type(17) {
-      transform: rotate(500.4deg) translate(10.6875em) rotate(-500.4deg); }
-    .circle > *:nth-of-type(18) {
-      transform: rotate(514.8deg) translate(10.6875em) rotate(-514.8deg); }
-    .circle > *:nth-of-type(19) {
-      transform: rotate(529.2deg) translate(10.6875em) rotate(-529.2deg); }
-    .circle > *:nth-of-type(20) {
-      transform: rotate(543.6deg) translate(10.6875em) rotate(-543.6deg); }
-    .circle > *:nth-of-type(21) {
-      transform: rotate(558deg) translate(10.6875em) rotate(-558deg); }
-    .circle > *:nth-of-type(22) {
-      transform: rotate(572.4deg) translate(10.6875em) rotate(-572.4deg); }
-    .circle > *:nth-of-type(23) {
-      transform: rotate(586.8deg) translate(10.6875em) rotate(-586.8deg); }
-    .circle > *:nth-of-type(24) {
-      transform: rotate(601.2deg) translate(10.6875em) rotate(-601.2deg); }
-    .circle > *:nth-of-type(25) {
-      transform: rotate(615.6deg) translate(10.6875em) rotate(-615.6deg); }
+    .circle > *:nth-of-type(1)  { transform: rotate(270deg) translate(10.6875em) rotate(-270deg); }
+    .circle > *:nth-of-type(2)  { transform: rotate(283.85deg) translate(10.6875em) rotate(-283.85deg); }
+    .circle > *:nth-of-type(3)  { transform: rotate(297.69deg) translate(10.6875em) rotate(-297.69deg); }
+    .circle > *:nth-of-type(4)  { transform: rotate(311.54deg) translate(10.6875em) rotate(-311.54deg); }
+    .circle > *:nth-of-type(5)  { transform: rotate(325.38deg) translate(10.6875em) rotate(-325.38deg); }
+    .circle > *:nth-of-type(6)  { transform: rotate(339.23deg) translate(10.6875em) rotate(-339.23deg); }
+    .circle > *:nth-of-type(7)  { transform: rotate(353.08deg) translate(10.6875em) rotate(-353.08deg); }
+    .circle > *:nth-of-type(8)  { transform: rotate(366.92deg) translate(10.6875em) rotate(-366.92deg); }
+    .circle > *:nth-of-type(9)  { transform: rotate(380.77deg) translate(10.6875em) rotate(-380.77deg); }
+    .circle > *:nth-of-type(10) { transform: rotate(394.62deg) translate(10.6875em) rotate(-394.62deg); }
+    .circle > *:nth-of-type(11) { transform: rotate(408.46deg) translate(10.6875em) rotate(-408.46deg); }
+    .circle > *:nth-of-type(12) { transform: rotate(422.31deg) translate(10.6875em) rotate(-422.31deg); }
+    .circle > *:nth-of-type(13) { transform: rotate(436.15deg) translate(10.6875em) rotate(-436.15deg); }
+    .circle > *:nth-of-type(14) { transform: rotate(450deg) translate(10.6875em) rotate(-450deg); }
+    .circle > *:nth-of-type(15) { transform: rotate(463.85deg) translate(10.6875em) rotate(-463.85deg); }
+    .circle > *:nth-of-type(16) { transform: rotate(477.69deg) translate(10.6875em) rotate(-477.69deg); }
+    .circle > *:nth-of-type(17) { transform: rotate(491.54deg) translate(10.6875em) rotate(-491.54deg); }
+    .circle > *:nth-of-type(18) { transform: rotate(505.38deg) translate(10.6875em) rotate(-505.38deg); }
+    .circle > *:nth-of-type(19) { transform: rotate(519.23deg) translate(10.6875em) rotate(-519.23deg); }
+    .circle > *:nth-of-type(20) { transform: rotate(533.08deg) translate(10.6875em) rotate(-533.08deg); }
+    .circle > *:nth-of-type(21) { transform: rotate(546.92deg) translate(10.6875em) rotate(-546.92deg); }
+    .circle > *:nth-of-type(22) { transform: rotate(560.77deg) translate(10.6875em) rotate(-560.77deg); }
+    .circle > *:nth-of-type(23) { transform: rotate(574.62deg) translate(10.6875em) rotate(-574.62deg); }
+    .circle > *:nth-of-type(24) { transform: rotate(588.46deg) translate(10.6875em) rotate(-588.46deg); }
+    .circle > *:nth-of-type(25) { transform: rotate(602.31deg) translate(10.6875em) rotate(-602.31deg); }
+    .circle > *:nth-of-type(26) { transform: rotate(616.15deg) translate(10.6875em) rotate(-616.15deg); }
+/*  */
   @media (min-width: 54.75em) {
     .circle {
       position: relative;
@@ -520,56 +497,32 @@ body {
         width: 2.25em;
         height: 2.25em;
         margin: -1.125em; }
-        .circle > *:nth-of-type(1) {
-          transform: rotate(270deg) translate(11.25em) rotate(-270deg); }
-        .circle > *:nth-of-type(2) {
-          transform: rotate(284.4deg) translate(11.25em) rotate(-284.4deg); }
-        .circle > *:nth-of-type(3) {
-          transform: rotate(298.8deg) translate(11.25em) rotate(-298.8deg); }
-        .circle > *:nth-of-type(4) {
-          transform: rotate(313.2deg) translate(11.25em) rotate(-313.2deg); }
-        .circle > *:nth-of-type(5) {
-          transform: rotate(327.6deg) translate(11.25em) rotate(-327.6deg); }
-        .circle > *:nth-of-type(6) {
-          transform: rotate(342deg) translate(11.25em) rotate(-342deg); }
-        .circle > *:nth-of-type(7) {
-          transform: rotate(356.4deg) translate(11.25em) rotate(-356.4deg); }
-        .circle > *:nth-of-type(8) {
-          transform: rotate(370.8deg) translate(11.25em) rotate(-370.8deg); }
-        .circle > *:nth-of-type(9) {
-          transform: rotate(385.2deg) translate(11.25em) rotate(-385.2deg); }
-        .circle > *:nth-of-type(10) {
-          transform: rotate(399.6deg) translate(11.25em) rotate(-399.6deg); }
-        .circle > *:nth-of-type(11) {
-          transform: rotate(414deg) translate(11.25em) rotate(-414deg); }
-        .circle > *:nth-of-type(12) {
-          transform: rotate(428.4deg) translate(11.25em) rotate(-428.4deg); }
-        .circle > *:nth-of-type(13) {
-          transform: rotate(442.8deg) translate(11.25em) rotate(-442.8deg); }
-        .circle > *:nth-of-type(14) {
-          transform: rotate(457.2deg) translate(11.25em) rotate(-457.2deg); }
-        .circle > *:nth-of-type(15) {
-          transform: rotate(471.6deg) translate(11.25em) rotate(-471.6deg); }
-        .circle > *:nth-of-type(16) {
-          transform: rotate(486deg) translate(11.25em) rotate(-486deg); }
-        .circle > *:nth-of-type(17) {
-          transform: rotate(500.4deg) translate(11.25em) rotate(-500.4deg); }
-        .circle > *:nth-of-type(18) {
-          transform: rotate(514.8deg) translate(11.25em) rotate(-514.8deg); }
-        .circle > *:nth-of-type(19) {
-          transform: rotate(529.2deg) translate(11.25em) rotate(-529.2deg); }
-        .circle > *:nth-of-type(20) {
-          transform: rotate(543.6deg) translate(11.25em) rotate(-543.6deg); }
-        .circle > *:nth-of-type(21) {
-          transform: rotate(558deg) translate(11.25em) rotate(-558deg); }
-        .circle > *:nth-of-type(22) {
-          transform: rotate(572.4deg) translate(11.25em) rotate(-572.4deg); }
-        .circle > *:nth-of-type(23) {
-          transform: rotate(586.8deg) translate(11.25em) rotate(-586.8deg); }
-        .circle > *:nth-of-type(24) {
-          transform: rotate(601.2deg) translate(11.25em) rotate(-601.2deg); }
-        .circle > *:nth-of-type(25) {
-          transform: rotate(615.6deg) translate(11.25em) rotate(-615.6deg); } }
+        .circle > *:nth-of-type(1)  { transform: rotate(270deg) translate(11.25em) rotate(-270deg); }
+        .circle > *:nth-of-type(2)  { transform: rotate(283.85deg) translate(11.25em) rotate(-283.85deg); }
+        .circle > *:nth-of-type(3)  { transform: rotate(297.69deg) translate(11.25em) rotate(-297.69deg); }
+        .circle > *:nth-of-type(4)  { transform: rotate(311.54deg) translate(11.25em) rotate(-311.54deg); }
+        .circle > *:nth-of-type(5)  { transform: rotate(325.38deg) translate(11.25em) rotate(-325.38deg); }
+        .circle > *:nth-of-type(6)  { transform: rotate(339.23deg) translate(11.25em) rotate(-339.23deg); }
+        .circle > *:nth-of-type(7)  { transform: rotate(353.08deg) translate(11.25em) rotate(-353.08deg); }
+        .circle > *:nth-of-type(8)  { transform: rotate(366.92deg) translate(11.25em) rotate(-366.92deg); }
+        .circle > *:nth-of-type(9)  { transform: rotate(380.77deg) translate(11.25em) rotate(-380.77deg); }
+        .circle > *:nth-of-type(10) { transform: rotate(394.62deg) translate(11.25em) rotate(-394.62deg); }
+        .circle > *:nth-of-type(11) { transform: rotate(408.46deg) translate(11.25em) rotate(-408.46deg); }
+        .circle > *:nth-of-type(12) { transform: rotate(422.31deg) translate(11.25em) rotate(-422.31deg); }
+        .circle > *:nth-of-type(13) { transform: rotate(436.15deg) translate(11.25em) rotate(-436.15deg); }
+        .circle > *:nth-of-type(14) { transform: rotate(450deg) translate(11.25em) rotate(-450deg); }
+        .circle > *:nth-of-type(15) { transform: rotate(463.85deg) translate(11.25em) rotate(-463.85deg); }
+        .circle > *:nth-of-type(16) { transform: rotate(477.69deg) translate(11.25em) rotate(-477.69deg); }
+        .circle > *:nth-of-type(17) { transform: rotate(491.54deg) translate(11.25em) rotate(-491.54deg); }
+        .circle > *:nth-of-type(18) { transform: rotate(505.38deg) translate(11.25em) rotate(-505.38deg); }
+        .circle > *:nth-of-type(19) { transform: rotate(519.23deg) translate(11.25em) rotate(-519.23deg); }
+        .circle > *:nth-of-type(20) { transform: rotate(533.08deg) translate(11.25em) rotate(-533.08deg); }
+        .circle > *:nth-of-type(21) { transform: rotate(546.92deg) translate(11.25em) rotate(-546.92deg); }
+        .circle > *:nth-of-type(22) { transform: rotate(560.77deg) translate(11.25em) rotate(-560.77deg); }
+        .circle > *:nth-of-type(23) { transform: rotate(574.62deg) translate(11.25em) rotate(-574.62deg); }
+        .circle > *:nth-of-type(24) { transform: rotate(588.46deg) translate(11.25em) rotate(-588.46deg); }
+        .circle > *:nth-of-type(25) { transform: rotate(602.31deg) translate(11.25em) rotate(-602.31deg); }
+        .circle > *:nth-of-type(26) { transform: rotate(616.15deg) translate(11.25em) rotate(-616.15deg); }}
   .circle .item {
     display: block;
     width: 2.25em;
@@ -587,7 +540,8 @@ body {
       background-image: radial-gradient(circle, #9ee379, #4caf50); }
     .circle .item--failure {
       background-image: radial-gradient(circle, #b9121b, #8e001c); }
-
+    .circle .item--skip {
+      background-image: radial-gradient(circle, #f9e79f, #f1c40f);}
 .scoreboard {
   margin: 0 0 1em 2em;
   padding: 0;
@@ -680,6 +634,25 @@ body {
       background-color: #9ee379; }
       .controls-container .btn--green:hover {
         background-color: #4caf50; }
+    .controls-container .btn--red {
+      background-color: #e74c3c; /* rojo vivo */
+    }
+    .controls-container .btn--red:hover {
+      background-color: #c0392b; /* rojo más oscuro al pasar */
+    }
+    .controls-container .btn--blue {
+      background-color: #3498db; /* azul vivo */
+    }
+    .controls-container .btn--blue:hover {
+      background-color: #2980b9; /* azul más oscuro */
+    }
+
+    .controls-container .btn--yellow {
+      background-color: #f1c40f; /* amarillo vivo */
+    }
+    .controls-container .btn--yellow:hover {
+      background-color: #d4ac0d; /* amarillo más oscuro */
+    }
 
 .ng-controls {
   width: 80%;

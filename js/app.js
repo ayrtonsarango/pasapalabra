@@ -1,6 +1,6 @@
 // Variables
 // -----------------------------------------------------------------------------
-
+var paused = false;
 var words = [
     new Word(0,"A","Anecdota"),
     new Word(1,"B","Bollo"),
@@ -40,9 +40,8 @@ function Word(idNumber, letter, word) {
 
 var pending = words.map((_,i) => i); // indices pendientes
 var remainingWords = pending.length;
-
-
 var currentIndex = 0;
+
 
 function showNextWord() {
     if (words.every(w => w.correct !== null)) {
@@ -70,20 +69,23 @@ function showNextWord() {
 
 // Marcar respuesta
 function markAnswer(result) {
+    if (paused) return; 
     let w = words[currentIndex];
 
     if (result === "bien") {
         w.correct = true;
-        $(".circle .item").eq(w.idNumber).addClass("item--success");
+        $(".circle .item").eq(w.idNumber).removeClass("item--skip").addClass("item--success");
         // ir a siguiente pendiente
         currentIndex = (currentIndex + 1) % words.length;
     } else if (result === "mal") {
         w.correct = false;
-        $(".circle .item").eq(w.idNumber).addClass("item--failure");
+        $(".circle .item").eq(w.idNumber).removeClass("item--skip").addClass("item--failure");
         currentIndex = (currentIndex + 1) % words.length;
     } else if (result === "pasapalabra") {
+        $(".circle .item").eq(w.idNumber).addClass("item--skip");
         currentIndex = (currentIndex + 1) % words.length;
     }
+    
 
     showNextWord();
 }
@@ -104,6 +106,10 @@ function endGame() {
 // Countdown
 var seconds, timeoutMyOswego;
 function countdown() {
+    if (paused) {
+        timeoutMyOswego = setTimeout(countdown,1000);
+        return;
+    }
     seconds = parseInt($("#js--timer").html(),10);
     if (seconds <= 0) {
         $("#js--timer").html(0);
@@ -133,6 +139,7 @@ $("#js--pasapalabra").click(() => markAnswer("pasapalabra"));
 
 // Enviar respuesta con ENTER
 $("#js--question-controls").keypress(function(event){
+    if (paused) return;
     if(event.which == 13) {
         let pos = pending[0];
         let userAnswer = $("#js--user-answer").val().toLowerCase();
@@ -144,6 +151,12 @@ $("#js--question-controls").keypress(function(event){
             markAnswer("mal");
         }
     }
+});
+
+$("#js--pause").click(function(e){
+    e.preventDefault();
+    paused = !paused;
+    $("#js--pause").text(paused ? "▶️ Reanudar" : "⏸️ Pausa");
 });
 
 // Volver a jugar
