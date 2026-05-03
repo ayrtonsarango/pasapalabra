@@ -33,6 +33,8 @@ Temporary Items
 ### Sass ###
 .sass-cache/
 *.css.map
+node_modules/
+.artifacts/
 
 
 ### CodeKit ###

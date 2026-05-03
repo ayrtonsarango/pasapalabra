@@ -1,86 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:100,200,400,600,900">
-    <title>Pasapalabra</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/style.css">
+	<title>Pasapalabra</title>
 </head>
 <body>
-	<section class="game">
-		<div class="circle-container">
+	<main class="game">
+		<section class="circle-container" aria-label="Rosco">
 			<div class="title-container">
 				<p class="title">PASAPALABRA</p>
 			</div>
-		    <ul class="circle">
-		        <li class="item">A</li>
-		        <li class="item">B</li>
-		        <li class="item">C</li>
-		        <li class="item">D</li>
-		        <li class="item">E</li>
-		        <li class="item">F</li>
-		        <li class="item">G</li>
-		        <li class="item">H</li>
-		        <li class="item">I</li>
-		        <li class="item">J</li>
+			<ul class="circle" aria-label="Rosco de letras">
+				<li class="item">A</li>
+				<li class="item">B</li>
+				<li class="item">C</li>
+				<li class="item">D</li>
+				<li class="item">E</li>
+				<li class="item">F</li>
+				<li class="item">G</li>
+				<li class="item">H</li>
+				<li class="item">I</li>
+				<li class="item">J</li>
 				<li class="item">K</li>
-		        <li class="item">L</li>
-		        <li class="item">M</li>
-		        <li class="item">N</li>
-		        <li class="item">O</li>
-		        <li class="item">P</li>
-		        <li class="item">Q</li>
-		        <li class="item">R</li>
-		        <li class="item">S</li>
-		        <li class="item">T</li>
-		        <li class="item">U</li>
-		        <li class="item">V</li>
+				<li class="item">L</li>
+				<li class="item">M</li>
+				<li class="item">N</li>
+				<li class="item">O</li>
+				<li class="item">P</li>
+				<li class="item">Q</li>
+				<li class="item">R</li>
+				<li class="item">S</li>
+				<li class="item">T</li>
+				<li class="item">U</li>
+				<li class="item">V</li>
 				<li class="item">W</li>
-		        <li class="item">X</li>
-		        <li class="item">Y</li>
-		        <li class="item">Z</li>
-		    </ul>
-			<ul class="scoreboard">
-				<li id="js--timer" class="timer" href="">10</li>
-				<li id="js--score" class="score" href="">25</li>
+				<li class="item">X</li>
+				<li class="item">Y</li>
+				<li class="item">Z</li>
 			</ul>
-		</div>
-		<div class="controls-container">
-			<i id="js--close" class="icon-close hidden"></i>
-			<div id="js--ng-controls" class="ng-controls">
-				<h4>Felicidades Lu, Ale, Javi y Marta!</h4>
-				<p>Developed by Geckoders! 🦎 </p>
-				<div id="js--time-config">
-					<label class="subtitle" for="js--time-input">Tiempo (segundos): </label>
-					<input id="js--time-input" class="subtitle" type="number" value="250" min="5" max="300">
+			<ul class="scoreboard" aria-label="Estado de la partida">
+				<li class="scoreboard__item">
+					<span class="scoreboard__label">Tiempo</span>
+					<strong id="js--timer" class="timer" aria-label="Tiempo restante">250</strong>
+				</li>
+				<li class="scoreboard__item">
+					<span class="scoreboard__label">Pendientes</span>
+					<strong id="js--score" class="score" aria-label="Palabras pendientes">26</strong>
+				</li>
+			</ul>
+		</section>
+
+		<section class="controls-container" aria-label="Panel de control">
+			<button id="js--close" class="close-button icon-close hidden" type="button" aria-label="Terminar partida"></button>
+
+			<div id="js--ng-controls" class="control-view ng-controls">
+				<p class="eyebrow">Panel de partida</p>
+				<h1 class="control-title">Pasapalabra</h1>
+				<p class="lead">Felicidades Lu, Ale, Javi y Marta!</p>
+				<div id="js--time-config" class="time-config">
+					<label class="field-label" for="js--time-input">Tiempo</label>
+					<input id="js--time-input" class="time-input" type="number" value="250" min="5" max="300">
+					<span class="field-unit">segundos</span>
 				</div>
-				<a id="js--new-game" class="btn"><i class="icon-play"></i>Jugar</a>
+				<button id="js--new-game" class="btn btn--primary" type="button"><i class="icon-play"></i>Jugar</button>
 			</div>
-			<div id="js--question-controls" class="question-controls hidden">
-				<span id="js--hint" class="hint"></span>
+
+			<div id="js--question-controls" class="control-view question-controls hidden">
+				<p class="eyebrow">Letra en juego</p>
+				<span id="js--hint" class="hint" aria-live="polite"></span>
 				<p id="js--definition" class="definition"></p>
 
-				<div id="js--answer-buttons">
-					<a id="js--bien" class="btn btn--green" href="#">Bien</a>
-					<a id="js--mal" class="btn btn--red" href="#">Mal</a>
-					<a id="js--pasapalabra" class="btn btn--yellow" href="#">Pasapalabra</a>
-					<a id="js--pause" class="btn btn--blue" href="#">⏸️ Pausa</a>
+				<div id="js--answer-buttons" class="answer-buttons">
+					<button id="js--bien" class="btn btn--green" type="button">Bien</button>
+					<button id="js--mal" class="btn btn--red" type="button">Mal</button>
+					<button id="js--pasapalabra" class="btn btn--yellow" type="button">Pasapalabra</button>
+					<button id="js--pause" class="btn btn--blue" type="button">Pausa</button>
 				</div>
-
 			</div>
-			<div id="js--pa-controls" class="pa-controls hidden">
+
+			<div id="js--pa-controls" class="control-view pa-controls hidden">
+				<p class="eyebrow">Resultado</p>
 				<p id="js--end-title" class="title"></p>
 				<p id="js--end-subtitle" class="subtitle"></p>
-				<a id="js--pa" class="btn" href=""><i class="icon-loop"></i>Jugar de nuevo</a>
+				<button id="js--pa" class="btn btn--primary" type="button"><i class="icon-loop"></i>Jugar de nuevo</button>
 			</div>
-		</div>
-	</section>
+		</section>
+	</main>
 	<footer>
-		<p>Made with <i class="icon-heart"></i> by <a href="http://www.twitter.com/txinoloko">Ayrton and Pats</a></p>
+		<p>Made by <a href="https://www.twitter.com/txinoloko">Ayrton and Pats</a></p>
 	</footer>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="js/app.js"></script>
 </body>
 </html>

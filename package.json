@@ -1,0 +1,12 @@
+{
+	"name": "pasapalabra",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"build:css": "sass scss/style.scss css/style.css --no-source-map",
+		"check:js": "node --check js/app.js"
+	},
+	"devDependencies": {
+		"sass": "^1.99.0"
+	}
+}

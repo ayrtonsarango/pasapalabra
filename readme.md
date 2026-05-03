@@ -1,32 +1,51 @@
-[![HTML5 & CSS3 Standard](https://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png)](http://www.w3.org/)  [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
-
 # Pasapalabra
- The Pasapalabra game made with **CSS, HTML and JS** in the Skylabcoders Web Development course, based on the successful television contest.
 
----
+App web estatica para controlar una partida tipo Pasapalabra.
 
-### How it works
-- Go to the demo version [here](https://MarioTerron.github.io/pasapalabra/).
-- Once there click on **Jugar** to start game.
+## Que hace
 
-![Click play to start game](https://github.com/MarioTerron/pasapalabra/blob/master/img/01.jpg)
+- Muestra el rosco completo de la A a la Z.
+- Permite elegir el tiempo de partida.
+- Marca cada letra como **bien**, **mal** o **pasapalabra**.
+- Mantiene las letras pasadas como pendientes.
+- Permite pausar, reanudar, terminar y jugar de nuevo.
+- Muestra el resultado final con aciertos, fallos y pendientes.
 
-- Read the sentence under the letters and **_write in the blank box the answer_**.
-- Press **Enviar** to send the answer.
-- If you don't know the answer, press on **Pasapalabra** and you **_skip the word for answer later_**.
-- Also you cant click **enter** to send the answer and click **space** for skip the word.
+## Como usarla
 
-![Sentence and answer](https://github.com/MarioTerron/pasapalabra/blob/master/img/02.jpg)
+Abre `index.html` en el navegador.
 
-- If the answer is **_correct_** the letter will turn **green**, if it is **_wrong_** it will turn **red**.
+Durante la partida:
 
-![Colors letters](https://github.com/MarioTerron/pasapalabra/blob/master/img/03.jpg)
+- `Bien`: acierto.
+- `Mal`: fallo.
+- `Pasapalabra`: deja la letra para despues.
+- `Pausa`: detiene o reanuda el tiempo.
 
-- If the countdown arrives to **0** the game ends.
-- You can see the countdown and the words remaining in the bottom corner.
+## Desarrollo
 
-![Countdown and words remaining](https://github.com/MarioTerron/pasapalabra/blob/master/img/04.jpg)
+Instalar dependencias:
 
-- When the **_game is finished_**, the score are shown.
+```bash
+npm install
+```
 
-![Game Finished](https://github.com/MarioTerron/pasapalabra/blob/master/img/05.jpg)
+Compilar estilos:
+
+```bash
+npm run build:css
+```
+
+Comprobar JavaScript:
+
+```bash
+npm run check:js
+```
+
+## Estructura
+
+- `index.html`: pantalla principal.
+- `js/app.js`: logica de la partida.
+- `scss/`: estilos fuente.
+- `css/style.css`: CSS compilado.
+- `DESIGN.md`: guia visual usada para el restyling.

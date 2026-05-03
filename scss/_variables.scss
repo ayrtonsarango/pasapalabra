@@ -7,44 +7,55 @@
 // -----------------------------------------------------------------------------
 
 $c-white:                  #ffffff;
-$c-white-darker:           #f0f0f0;
+$c-white-soft:             #f7f8fb;
+$c-border:                 #d9deea;
 
-$c-base:                   #1E90FF;  // Dodger Blue
-$c-base-darker:            #104E8B;  // Azul intenso para hover/elementos activos
+$c-stage:                  #14141a;
+$c-stage-soft:             #20222d;
+$c-stage-ring:             #2f3544;
 
-$c-base-alt:               #6CA0DC;  // Azul más suave
-$c-base-alt-darker:        #3B5998;  // Azul profundo para contraste
+$c-text:                   #1e2430;
+$c-text-muted:             #6b7280;
 
-$c-success:                #7FDBB6;  // Verde suave agradable
-$c-success-darker:         #28A745;  // Verde para estados confirmados
+$c-base:                   #2166e8;
+$c-base-darker:            #1747a6;
+$c-base-soft:              #dce7ff;
 
-$c-failure:                #FF6B6B;  // Rojo más moderno y suave
-$c-failure-darker:         #C0392B;  // Rojo intenso para errores
+$c-success:                #1fa971;
+$c-success-darker:         #14764f;
 
-$c-bg:                     #E6F0FA;  // Azul muy claro para fondo general
-$c-red:                     #D32F2F; // Rojo estándar
+$c-failure:                #d43c3c;
+$c-failure-darker:         #9f2424;
 
+$c-warning:                #d99a1b;
+$c-warning-darker:         #996913;
+
+$c-shadow:                 rgba(15, 23, 42, .16);
+$c-stage-shadow:           rgba(0, 0, 0, .28);
+
+
+// Typography
+// -----------------------------------------------------------------------------
+
+$font-base:                'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
 
 // Sizes
 // -----------------------------------------------------------------------------
 
-$s-item:				 	2.25em;
-$s-circle: 					$s-item * 10;
+$s-item:                   2.75rem;
+$s-circle:                 30rem;
 
-$s-item-mobile:				1.25em;
-$s-circle-mobile: 			$s-item * 9.5;
+$s-item-mobile:            1.8rem;
+$s-circle-mobile:          18rem;
 
-$h-scoreboard: 				$s-item * 3;
-$w-scoreboard: 				$s-item * 5;
-
-$s-timer:				 	$s-item * 1.25;
-
-$h-score: 					$s-item * .75;
-$w-score: 					$s-item * 1.25;
+$s-timer:                  4.25rem;
+$w-score:                  5.75rem;
+$h-score:                  4.25rem;
 
 
 // Others
 // -----------------------------------------------------------------------------
 
-$nb-items: 25;
+$nb-items:                 26;
+$radius:                   8px;

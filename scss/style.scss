@@ -1,5 +1,3 @@
-@import 'reset';
-@import 'variables';
-@import 'mixins';
-@import 'fonts';
-@import 'layout';
+@use 'reset';
+@use 'fonts';
+@use 'layout';
