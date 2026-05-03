@@ -312,21 +312,42 @@ button:disabled {
 		position: absolute;
 		top: 1.25rem;
 		right: 1.25rem;
-		width: 2.5rem;
-		height: 2.5rem;
+		width: 2.75rem;
+		height: 2.75rem;
 		padding: 0;
-		border: 1px solid rgba($c-failure, .18);
+		border: 1px solid rgba($c-failure, .2);
 		border-radius: 50%;
 		background-color: $c-white;
-		color: $c-failure;
 		cursor: pointer;
-		box-shadow: 0 .75rem 1.6rem rgba($c-failure, .08);
+		box-shadow: 0 .9rem 1.8rem rgba($c-failure, .1);
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 1rem;
+			height: 2px;
+			border-radius: 999px;
+			background-color: $c-failure;
+			transform-origin: center;
+		}
+
+		&::before {
+			transform: translate(-50%, -50%) rotate(45deg);
+		}
+
+		&::after {
+			transform: translate(-50%, -50%) rotate(-45deg);
+		}
 
 		&:hover,
 		&:focus-visible {
 			border-color: rgba($c-failure, .35);
 			background-color: rgba($c-failure, .08);
 			outline: 0;
+			box-shadow: 0 1rem 2rem rgba($c-failure, .16);
 		}
 	}
 
@@ -577,6 +598,11 @@ button:disabled {
 		font-size: 1.2rem;
 		font-weight: 700;
 		line-height: 1.45;
+	}
+
+	.definition--empty {
+		min-height: 0;
+		margin-bottom: 1rem;
 	}
 }
 

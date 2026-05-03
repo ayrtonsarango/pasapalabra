@@ -28,7 +28,8 @@ Cada rosco conserva los mismos colores semanticos de estado: verde para acierto,
 Tipografia de sistema, rapida y sin dependencia externa. Titulares con peso fuerte y tamanos contenidos; controles y estados con texto corto, mayusculas moderadas y espaciado normal.
 
 ## 4. Component Stylings
-* **Buttons:** rectangulos de 8px, color solido, alto generoso y estados hover/focus visibles.
+* **Buttons:** rectangulos de 8px para acciones principales, color solido, alto generoso y estados hover/focus visibles.
+* **Close action:** boton circular pequeno, blanco, con una X dibujada por CSS y acento rojo sutil.
 * **Rosco:** letras circulares, separacion regular, estado activo con anillo luminoso.
 * **Scoreboard:** dos modulos compactos con etiqueta pequena y numero grande.
 * **Inputs:** superficie blanca, borde sutil y foco azul claro.
@@ -37,4 +38,4 @@ Tipografia de sistema, rapida y sin dependencia externa. Titulares con peso fuer
 La experiencia principal aparece en la primera pantalla. En escritorio, los roscos ocupan la zona izquierda y escalan en una matriz de una o dos columnas segun haya 1, 2, 3 o 4 equipos; los controles quedan a la derecha. En movil, los roscos se apilan y los controles quedan debajo. El diseno evita tarjetas anidadas y mantiene agrupaciones grandes, claras y faciles de escanear.
 
 ## 6. Turn Privacy
-Cuando un equipo falla o dice pasapalabra, el siguiente rosco queda preparado pero no muestra letra ni definicion. La informacion de la pregunta aparece solo cuando el presentador pulsa Play e inicia el contador del equipo activo.
+Cuando un equipo falla o dice pasapalabra, el siguiente rosco queda listo pero no muestra letra ni definicion. La informacion de la pregunta aparece solo cuando el presentador inicia el turno y arranca el contador del equipo activo.

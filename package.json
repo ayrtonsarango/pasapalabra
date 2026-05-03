@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"build:css": "sass scss/style.scss css/style.css --no-source-map",
-		"check:js": "node --check js/app.js"
+		"check:js": "node --check js/app.js",
+		"test": "node scripts/smoke-test.js"
 	},
 	"devDependencies": {
 		"sass": "^1.99.0"

@@ -9,6 +9,7 @@
 	const UNANSWERED_STATUSES = ['pending', 'skipped'];
 	const BOARD_THEMES = ['ocean', 'ember', 'forest', 'violet'];
 	const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+	const READY_MESSAGE = 'Listo para el siguiente equipo.';
 
 	const defaultQuestions = LETTERS.map(letter => ({
 		letter,
@@ -305,18 +306,18 @@
 		}
 
 		if (team.finished) {
-			return 'Completado';
+			return 'Finalizado';
 		}
 
 		if (team.id === state.activeTeamIndex && state.phase === 'playing') {
-			return 'Jugando';
+			return 'En juego';
 		}
 
 		if (team.id === state.activeTeamIndex && state.phase === 'ready') {
-			return 'Preparado';
+			return 'Listo';
 		}
 
-		return 'En espera';
+		return 'Espera';
 	}
 
 	function renderTurnPanel() {
@@ -326,7 +327,7 @@
 		if (!team || !question) {
 			elements.turnLabel.textContent = 'Turno';
 			elements.hint.textContent = '';
-			elements.definition.textContent = '';
+			setDefinitionText('');
 			setControlsEnabled(false);
 			hide(elements.playTurnButton);
 			return;
@@ -336,16 +337,21 @@
 
 		if (state.phase === 'ready') {
 			elements.hint.textContent = '';
-			elements.definition.textContent = 'Turno preparado. Pulsa Play para revelar la siguiente letra.';
+			setDefinitionText(READY_MESSAGE);
 			setControlsEnabled(false);
 			show(elements.playTurnButton);
 			return;
 		}
 
 		elements.hint.textContent = question.letter;
-		elements.definition.textContent = question.definition || 'Sin definicion configurada.';
+		setDefinitionText(question.definition);
 		setControlsEnabled(state.phase === 'playing');
 		hide(elements.playTurnButton);
+	}
+
+	function setDefinitionText(text) {
+		elements.definition.textContent = text;
+		elements.definition.classList.toggle('definition--empty', !text);
 	}
 
 	function renderGame() {

@@ -12,7 +12,7 @@ App web estatica de Geckoders para controlar una partida tipo Pasapalabra.
 - Marca cada letra como **bien**, **mal** o **pasapalabra**.
 - Mantiene las letras pasadas como pendientes.
 - Pasa turno al siguiente rosco tras un fallo o pasapalabra.
-- Oculta la siguiente definicion hasta pulsar `Play` en el turno preparado.
+- Oculta la siguiente letra y su definicion hasta empezar el turno.
 - Permite pausar, terminar y jugar de nuevo.
 - Muestra el resultado final con aciertos, fallos y pendientes.
 
@@ -31,7 +31,7 @@ Durante la partida:
 - `Mal`: fallo.
 - `Pasapalabra`: deja la letra para despues.
 - `Pausa`: detiene el turno actual.
-- `Play`: inicia el siguiente turno preparado.
+- `Empezar turno`: activa el contador del siguiente equipo.
 
 ## Desarrollo
 
@@ -53,10 +53,17 @@ Comprobar JavaScript:
 npm run check:js
 ```
 
+Probar el flujo principal:
+
+```bash
+npm test
+```
+
 ## Estructura
 
 - `index.html`: pantalla principal.
 - `js/app.js`: logica de la partida.
+- `scripts/smoke-test.js`: prueba de humo del flujo multi-rosco.
 - `scss/`: estilos fuente.
 - `css/style.css`: CSS compilado.
 - `DESIGN.md`: guia visual usada para el restyling.
