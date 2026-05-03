@@ -276,7 +276,7 @@
 
 		center.className = 'team-board__center';
 		name.className = 'team-board__name';
-		name.textContent = team.name;
+		name.textContent = state.teams.length === 1 ? 'Pasapalabra' : team.name;
 		stateText.className = 'team-board__state';
 		stateText.textContent = getBoardStateText(team);
 		center.append(name, stateText);
@@ -465,6 +465,11 @@
 		question.status = status;
 
 		if (status === 'correct') {
+			continueSameTeam(team);
+			return;
+		}
+
+		if (status === 'skipped' && state.teams.length === 1) {
 			continueSameTeam(team);
 			return;
 		}

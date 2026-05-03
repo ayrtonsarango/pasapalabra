@@ -30,10 +30,11 @@ Tipografia de sistema, rapida y sin dependencia externa. Titulares con peso fuer
 ## 4. Component Stylings
 * **Buttons:** rectangulos de 8px para acciones principales, color solido, alto generoso y estados hover/focus visibles.
 * **Close action:** boton circular pequeno, blanco, con una X dibujada por CSS y acento rojo sutil.
-* **Rosco:** letras circulares, separacion regular, centro tintado por equipo y estado activo con anillo luminoso.
+* **Rosco:** letras circulares, separacion regular, centro tintado por equipo y estado activo con anillo luminoso. Si hay un solo rosco, el titulo central es "Pasapalabra".
 * **Color picker:** selector circular compacto para definir el color interior del rosco sin ocupar espacio operativo.
 * **Scoreboard:** dos modulos compactos con etiqueta pequena y numero grande.
 * **Inputs:** superficie blanca, borde sutil y foco azul claro.
+* **Footer:** franja oscura alineada con el escenario, texto claro y enlace azul suave para integrar marca sin romper contraste.
 
 ## 5. Layout Principles
 La experiencia principal aparece en la primera pantalla. En escritorio, los roscos ocupan la zona izquierda y escalan en una matriz de una o dos columnas segun haya 1, 2, 3 o 4 equipos; los controles quedan a la derecha. En movil, los roscos se apilan y los controles quedan debajo. El diseno evita tarjetas anidadas y mantiene agrupaciones grandes, claras y faciles de escanear.

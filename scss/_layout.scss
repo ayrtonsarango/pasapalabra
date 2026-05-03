@@ -133,7 +133,7 @@ button:disabled {
 	position: relative;
 	width: var(--circle-size);
 	height: var(--circle-size);
-	margin: 0;
+	margin: 0 0 calc(var(--item-size) * .95);
 	padding: 0;
 	border-radius: 50%;
 	list-style: none;
@@ -244,7 +244,7 @@ button:disabled {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: .6rem;
 	width: min(100%, calc(var(--circle-size) * .72));
-	margin: .9rem 0 0;
+	margin: .4rem 0 0;
 	padding: 0;
 	list-style: none;
 }
@@ -663,25 +663,26 @@ footer {
 	justify-content: center;
 	min-height: 44px;
 	padding: .5rem 1rem;
-	background-color: $c-white-soft;
-	border-top: 1px solid $c-border;
+	background:
+		linear-gradient(180deg, rgba(20, 20, 26, .98), rgba(20, 20, 26, 1));
+	border-top: 1px solid rgba(255, 255, 255, .1);
 	text-align: center;
 
 	a,
 	p {
 		margin: 0;
-		color: $c-text-muted;
+		color: rgba(255, 255, 255, .75);
 		font-size: .82rem;
 		font-weight: 600;
 	}
 
 	a {
-		color: $c-text;
+		color: #8bb6ff;
 		font-weight: 800;
 		text-decoration: none;
 
 		&:hover {
-			color: $c-base;
+			color: $c-white;
 		}
 	}
 }

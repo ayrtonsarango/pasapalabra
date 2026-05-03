@@ -218,7 +218,16 @@ function statusCount(index, cls) {
 }
 
 assert(elements['js--boards'].children.length === 1, 'menu should render one default board');
-assert(boardName(0) === 'Equipo 1', 'default team name should render');
+assert(boardName(0) === 'Pasapalabra', 'single board title should render as Pasapalabra');
+
+elements['js--quick-game'].click();
+assert(boardState(0) === 'En juego', 'quick game should start single board playing');
+assert(elements['js--hint'].textContent === 'A', 'single board should start on A');
+elements['js--pasapalabra'].click();
+assert(boardState(0) === 'En juego', 'single-board pasapalabra should continue without pause');
+assert(elements['js--hint'].textContent === 'B', 'single-board pasapalabra should move to next letter');
+assert(elements['js--play-turn'].classList.contains('hidden'), 'single-board pasapalabra should not show turn-start button');
+elements['js--menu'].click();
 
 elements['js--customize-game'].click();
 elements['js--team-count'].value = '3';
