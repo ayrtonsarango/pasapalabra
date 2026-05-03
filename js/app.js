@@ -2,40 +2,21 @@
 	'use strict';
 
 	const MIN_SECONDS = 5;
-	const MAX_SECONDS = 300;
+	const MAX_SECONDS = 600;
 	const DEFAULT_SECONDS = 250;
+	const DEFAULT_TEAM_COUNT = 1;
+	const MAX_TEAMS = 4;
 	const UNANSWERED_STATUSES = ['pending', 'skipped'];
+	const BOARD_THEMES = ['ocean', 'ember', 'forest', 'violet'];
+	const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-	const defaultQuestions = [
-		{ letter: 'A', definition: 'Empieza por A: relato breve de un hecho curioso.' },
-		{ letter: 'B', definition: 'Empieza por B: pieza de bolleria dulce o salada.' },
-		{ letter: 'C', definition: 'Empieza por C: caida de agua desde cierta altura.' },
-		{ letter: 'D', definition: 'Empieza por D: arma blanca corta.' },
-		{ letter: 'E', definition: 'Empieza por E: curva que gira alrededor de un punto alejandose de el.' },
-		{ letter: 'F', definition: 'Contiene la F: que esta corrompido o en descomposicion.' },
-		{ letter: 'G', definition: 'Empieza por G: persona ruda o de modales poco cuidados.' },
-		{ letter: 'H', definition: 'Contiene la H: de cuerpo grueso y bajo.' },
-		{ letter: 'I', definition: 'Empieza por I: relativo al espacio entre estrellas.' },
-		{ letter: 'J', definition: 'Empieza por J: chile pequeno y picante.' },
-		{ letter: 'K', definition: 'Empieza por K: preparacion de carne asada servida normalmente en pan.' },
-		{ letter: 'L', definition: 'Contiene la L: criatura humana diminuta creada artificialmente en relatos antiguos.' },
-		{ letter: 'M', definition: 'Empieza por M: persona que muere por defender sus creencias.' },
-		{ letter: 'N', definition: 'Empieza por N: gas noble usado en letreros luminosos.' },
-		{ letter: 'O', definition: 'Empieza por O: que lo sabe todo.' },
-		{ letter: 'P', definition: 'Contiene la P: calzado sencillo de lona o esparto.' },
-		{ letter: 'Q', definition: 'Empieza por Q: fragil o facil de romper.' },
-		{ letter: 'R', definition: 'Empieza por R: cirugia estetica de la nariz.' },
-		{ letter: 'S', definition: 'Contiene la S: falta de aseo o arreglo.' },
-		{ letter: 'T', definition: 'Empieza por T: insolacion o malestar causado por calor excesivo.' },
-		{ letter: 'U', definition: 'Contiene la U: esquivo o poco sociable.' },
-		{ letter: 'V', definition: 'Empieza por V: relacion de dependencia o sumision.' },
-		{ letter: 'W', definition: 'Empieza por W: bebida alcoholica destilada de cereales.' },
-		{ letter: 'X', definition: 'Contiene la X: punto culminante de una obra o situacion.' },
-		{ letter: 'Y', definition: 'Contiene la Y: macho de la vaca.' },
-		{ letter: 'Z', definition: 'Empieza por Z: persona simple o poco despierta.' }
-	];
+	const defaultQuestions = LETTERS.map(letter => ({
+		letter,
+		definition: ''
+	}));
 
 	const elements = {
+		boards: document.getElementById('js--boards'),
 		menuControls: document.getElementById('js--ng-controls'),
 		configControls: document.getElementById('js--config-controls'),
 		questionControls: document.getElementById('js--question-controls'),
@@ -51,42 +32,34 @@
 		wrongButton: document.getElementById('js--mal'),
 		skipButton: document.getElementById('js--pasapalabra'),
 		pauseButton: document.getElementById('js--pause'),
-		timeInput: document.getElementById('js--time-input'),
-		definitionsList: document.getElementById('js--definitions-list'),
-		timer: document.getElementById('js--timer'),
-		score: document.getElementById('js--score'),
+		playTurnButton: document.getElementById('js--play-turn'),
+		teamCount: document.getElementById('js--team-count'),
+		teamsConfig: document.getElementById('js--teams-config'),
+		turnLabel: document.getElementById('js--turn-label'),
 		hint: document.getElementById('js--hint'),
 		definition: document.getElementById('js--definition'),
 		endTitle: document.getElementById('js--end-title'),
-		endSubtitle: document.getElementById('js--end-subtitle'),
-		letterItems: Array.from(document.querySelectorAll('.circle .item'))
+		endSubtitle: document.getElementById('js--end-subtitle')
 	};
 
 	const state = {
-		activeQuestions: copyQuestions(defaultQuestions),
-		round: [],
-		currentIndex: 0,
-		configSeconds: DEFAULT_SECONDS,
-		seconds: DEFAULT_SECONDS,
+		configTeams: buildDefaultTeamConfigs(DEFAULT_TEAM_COUNT),
+		teams: [],
+		activeTeamIndex: 0,
 		timerId: null,
-		paused: false,
-		running: false
+		phase: 'menu'
 	};
 
-	function copyQuestions(questions) {
-		return questions.map(question => ({ ...question }));
-	}
-
-	function createRound() {
-		return state.activeQuestions.map((question, index) => ({
-			...question,
-			id: index,
-			status: 'pending'
+	function buildDefaultTeamConfigs(count) {
+		return Array.from({ length: count }, (_, index) => ({
+			name: `Equipo ${index + 1}`,
+			seconds: DEFAULT_SECONDS,
+			questions: copyQuestions(defaultQuestions)
 		}));
 	}
 
-	function isUnanswered(question) {
-		return UNANSWERED_STATUSES.includes(question.status);
+	function copyQuestions(questions) {
+		return questions.map(question => ({ ...question }));
 	}
 
 	function clampSeconds(value) {
@@ -97,6 +70,28 @@
 		}
 
 		return Math.min(Math.max(seconds, MIN_SECONDS), MAX_SECONDS);
+	}
+
+	function clampTeamCount(value) {
+		const count = Number.parseInt(value, 10);
+
+		if (Number.isNaN(count)) {
+			return DEFAULT_TEAM_COUNT;
+		}
+
+		return Math.min(Math.max(count, 1), MAX_TEAMS);
+	}
+
+	function isUnanswered(question) {
+		return UNANSWERED_STATUSES.includes(question.status);
+	}
+
+	function getRemaining(team) {
+		return team.questions.filter(isUnanswered).length;
+	}
+
+	function isTeamPlayable(team) {
+		return !team.finished && team.seconds > 0 && getRemaining(team) > 0;
 	}
 
 	function show(element) {
@@ -125,72 +120,34 @@
 		}
 	}
 
-	function resetRosco() {
-		elements.letterItems.forEach(item => {
-			item.classList.remove('item--active', 'item--success', 'item--failure', 'item--skip');
-		});
+	function createTeam(config, index) {
+		return {
+			id: index,
+			name: config.name || `Equipo ${index + 1}`,
+			theme: BOARD_THEMES[index % BOARD_THEMES.length],
+			configSeconds: clampSeconds(config.seconds),
+			seconds: clampSeconds(config.seconds),
+			currentIndex: 0,
+			finished: false,
+			finishReason: null,
+			questions: config.questions.map((question, questionIndex) => ({
+				id: questionIndex,
+				letter: question.letter,
+				definition: question.definition.trim(),
+				status: 'pending'
+			}))
+		};
 	}
 
-	function updateLetterStatus(question) {
-		const item = elements.letterItems[question.id];
-
-		if (!item) {
-			return;
-		}
-
-		item.classList.remove('item--active', 'item--success', 'item--failure', 'item--skip');
-
-		if (question.status === 'correct') {
-			item.classList.add('item--success');
-		}
-
-		if (question.status === 'wrong') {
-			item.classList.add('item--failure');
-		}
-
-		if (question.status === 'skipped') {
-			item.classList.add('item--skip');
-		}
+	function createTeamsFromConfig() {
+		return state.configTeams.map(createTeam);
 	}
 
-	function renderTimer() {
-		elements.timer.textContent = state.seconds;
-	}
+	function findNextQuestionIndex(team, startIndex) {
+		for (let offset = 0; offset < team.questions.length; offset++) {
+			const index = (startIndex + offset) % team.questions.length;
 
-	function renderScore() {
-		const source = state.round.length > 0 ? state.round : state.activeQuestions;
-		const remaining = source.filter(question => !question.status || isUnanswered(question)).length;
-		elements.score.textContent = remaining;
-	}
-
-	function renderCurrentQuestion() {
-		elements.letterItems.forEach(item => item.classList.remove('item--active'));
-
-		const question = state.round[state.currentIndex];
-
-		if (!question || !isUnanswered(question)) {
-			return;
-		}
-
-		const currentItem = elements.letterItems[question.id];
-
-		if (currentItem) {
-			currentItem.classList.add('item--active');
-		}
-
-		elements.hint.textContent = question.letter;
-		elements.definition.textContent = question.definition;
-	}
-
-	function renderPauseButton() {
-		elements.pauseButton.textContent = state.paused ? 'Reanudar' : 'Pausa';
-	}
-
-	function findNextUnansweredIndex(startIndex) {
-		for (let offset = 0; offset < state.round.length; offset++) {
-			const index = (startIndex + offset) % state.round.length;
-
-			if (isUnanswered(state.round[index])) {
+			if (isUnanswered(team.questions[index])) {
 				return index;
 			}
 		}
@@ -198,202 +155,516 @@
 		return -1;
 	}
 
-	function moveToNextQuestion() {
-		const nextIndex = findNextUnansweredIndex((state.currentIndex + 1) % state.round.length);
-
-		if (nextIndex === -1) {
-			endGame('completed');
-			return;
+	function refreshTeamCompletion(team, reason = 'completed') {
+		if (getRemaining(team) === 0) {
+			team.finished = true;
+			team.finishReason = reason;
+			return true;
 		}
 
-		state.currentIndex = nextIndex;
-		renderCurrentQuestion();
-		renderScore();
+		if (team.seconds <= 0) {
+			team.seconds = 0;
+			team.finished = true;
+			team.finishReason = 'time';
+			return true;
+		}
+
+		return false;
 	}
 
-	function markAnswer(status) {
-		if (!state.running || state.paused) {
-			return;
+	function findNextTeamIndex(startIndex) {
+		for (let offset = 0; offset < state.teams.length; offset++) {
+			const index = (startIndex + offset) % state.teams.length;
+
+			if (isTeamPlayable(state.teams[index])) {
+				return index;
+			}
 		}
 
-		const question = state.round[state.currentIndex];
-
-		if (!question || !isUnanswered(question)) {
-			return;
-		}
-
-		question.status = status;
-		updateLetterStatus(question);
-		moveToNextQuestion();
+		return -1;
 	}
 
-	function skipQuestion() {
-		if (!state.running || state.paused) {
+	function getActiveTeam() {
+		return state.teams[state.activeTeamIndex] || null;
+	}
+
+	function getActiveQuestion() {
+		const team = getActiveTeam();
+
+		if (!team) {
+			return null;
+		}
+
+		return team.questions[team.currentIndex] || null;
+	}
+
+	function setControlsEnabled(enabled) {
+		[
+			elements.goodButton,
+			elements.wrongButton,
+			elements.skipButton,
+			elements.pauseButton
+		].forEach(button => {
+			button.disabled = !enabled;
+		});
+	}
+
+	function renderBoards() {
+		elements.boards.dataset.count = String(Math.max(state.teams.length, 1));
+		elements.boards.replaceChildren(...state.teams.map(buildBoard));
+	}
+
+	function buildBoard(team) {
+		const board = document.createElement('article');
+		const circle = document.createElement('ul');
+		const center = document.createElement('div');
+		const name = document.createElement('p');
+		const stateText = document.createElement('p');
+		const score = document.createElement('ul');
+		const timerItem = buildScoreItem('Tiempo', team.seconds);
+		const pendingItem = buildScoreItem('Pendientes', getRemaining(team));
+
+		board.className = `team-board team-board--${team.theme}`;
+		board.dataset.teamId = team.id;
+		board.setAttribute('aria-label', team.name);
+
+		if (team.finished) {
+			board.classList.add('is-finished');
+		}
+
+		if (team.id === state.activeTeamIndex && state.phase === 'playing') {
+			board.classList.add('is-active');
+		}
+
+		if (team.id === state.activeTeamIndex && state.phase === 'ready') {
+			board.classList.add('is-ready');
+		}
+
+		circle.className = 'circle';
+		team.questions.forEach((question, index) => {
+			const item = document.createElement('li');
+			item.className = getLetterClass(team, question, index);
+			item.textContent = question.letter;
+			circle.append(item);
+		});
+
+		center.className = 'team-board__center';
+		name.className = 'team-board__name';
+		name.textContent = team.name;
+		stateText.className = 'team-board__state';
+		stateText.textContent = getBoardStateText(team);
+		center.append(name, stateText);
+
+		score.className = 'scoreboard';
+		score.append(timerItem, pendingItem);
+
+		board.append(circle, center, score);
+		return board;
+	}
+
+	function buildScoreItem(label, value) {
+		const item = document.createElement('li');
+		const labelEl = document.createElement('span');
+		const valueEl = document.createElement('strong');
+
+		item.className = 'scoreboard__item';
+		labelEl.className = 'scoreboard__label';
+		labelEl.textContent = label;
+		valueEl.className = 'scoreboard__value';
+		valueEl.textContent = value;
+		item.append(labelEl, valueEl);
+
+		return item;
+	}
+
+	function getLetterClass(team, question, index) {
+		const classes = ['item'];
+
+		if (question.status === 'correct') {
+			classes.push('item--success');
+		}
+
+		if (question.status === 'wrong') {
+			classes.push('item--failure');
+		}
+
+		if (question.status === 'skipped') {
+			classes.push('item--skip');
+		}
+
+		if (team.id === state.activeTeamIndex && state.phase === 'playing' && index === team.currentIndex) {
+			classes.push('item--active');
+		}
+
+		return classes.join(' ');
+	}
+
+	function getBoardStateText(team) {
+		if (team.finished && team.finishReason === 'time') {
+			return 'Tiempo agotado';
+		}
+
+		if (team.finished) {
+			return 'Completado';
+		}
+
+		if (team.id === state.activeTeamIndex && state.phase === 'playing') {
+			return 'Jugando';
+		}
+
+		if (team.id === state.activeTeamIndex && state.phase === 'ready') {
+			return 'Preparado';
+		}
+
+		return 'En espera';
+	}
+
+	function renderTurnPanel() {
+		const team = getActiveTeam();
+		const question = getActiveQuestion();
+
+		if (!team || !question) {
+			elements.turnLabel.textContent = 'Turno';
+			elements.hint.textContent = '';
+			elements.definition.textContent = '';
+			setControlsEnabled(false);
+			hide(elements.playTurnButton);
 			return;
 		}
 
-		const question = state.round[state.currentIndex];
+		elements.turnLabel.textContent = `${team.name} - ${team.seconds}s`;
 
-		if (!question || !isUnanswered(question)) {
+		if (state.phase === 'ready') {
+			elements.hint.textContent = '';
+			elements.definition.textContent = 'Turno preparado. Pulsa Play para revelar la siguiente letra.';
+			setControlsEnabled(false);
+			show(elements.playTurnButton);
 			return;
 		}
 
-		question.status = 'skipped';
-		updateLetterStatus(question);
-		moveToNextQuestion();
+		elements.hint.textContent = question.letter;
+		elements.definition.textContent = question.definition || 'Sin definicion configurada.';
+		setControlsEnabled(state.phase === 'playing');
+		hide(elements.playTurnButton);
 	}
 
-	function buildEndMessage(reason) {
-		const correct = state.round.filter(question => question.status === 'correct').length;
-		const wrong = state.round.filter(question => question.status === 'wrong').length;
-		const pending = state.round.filter(isUnanswered).length;
-
-		if (reason === 'completed') {
-			return {
-				title: 'Rosco completado',
-				subtitle: `Aciertos: ${correct}. Fallos: ${wrong}.`
-			};
-		}
-
-		if (reason === 'time') {
-			return {
-				title: 'Tiempo agotado',
-				subtitle: `Aciertos: ${correct}. Fallos: ${wrong}. Pendientes: ${pending}.`
-			};
-		}
-
-		return {
-			title: 'Partida terminada',
-			subtitle: `Aciertos: ${correct}. Fallos: ${wrong}. Pendientes: ${pending}.`
-		};
+	function renderGame() {
+		renderBoards();
+		renderTurnPanel();
 	}
 
-	function endGame(reason) {
-		if (!state.running) {
-			return;
-		}
-
-		resetTimer();
-		state.running = false;
-		state.paused = false;
-
-		hide(elements.closeButton);
-		showOnly(elements.playAgainControls);
-		renderPauseButton();
-		renderScore();
-
-		const message = buildEndMessage(reason);
-		elements.endTitle.textContent = message.title;
-		elements.endSubtitle.textContent = message.subtitle;
-	}
-
-	function tick() {
-		if (!state.running || state.paused) {
-			return;
-		}
-
-		state.seconds -= 1;
-		renderTimer();
-
-		if (state.seconds <= 0) {
-			state.seconds = 0;
-			renderTimer();
-			endGame('time');
-		}
-	}
-
-	function startTimer() {
+	function startInterval() {
 		resetTimer();
 		state.timerId = window.setInterval(tick, 1000);
 	}
 
-	function startGame() {
+	function startGame(startImmediately = true) {
 		resetTimer();
-		resetRosco();
+		state.teams = createTeamsFromConfig();
+		state.activeTeamIndex = findNextTeamIndex(0);
 
-		state.round = createRound();
-		state.currentIndex = 0;
-		state.seconds = state.configSeconds;
-		state.paused = false;
-		state.running = true;
+		if (state.activeTeamIndex === -1) {
+			showResults();
+			return;
+		}
 
+		state.phase = startImmediately ? 'playing' : 'ready';
 		showOnly(elements.questionControls);
 		show(elements.closeButton);
+		renderGame();
 
-		renderTimer();
-		renderScore();
-		renderPauseButton();
-		renderCurrentQuestion();
-		startTimer();
+		if (state.phase === 'playing') {
+			startInterval();
+		}
 	}
 
 	function startQuickGame() {
-		state.activeQuestions = copyQuestions(defaultQuestions);
-		state.configSeconds = DEFAULT_SECONDS;
-		elements.timeInput.value = DEFAULT_SECONDS;
-		startGame();
-	}
-
-	function applyCustomSettings() {
-		state.configSeconds = clampSeconds(elements.timeInput.value);
-		elements.timeInput.value = state.configSeconds;
-		state.activeQuestions = defaultQuestions.map(question => {
-			const field = elements.definitionsList.querySelector(`[data-letter="${question.letter}"]`);
-			const definition = field ? field.value.trim() : '';
-
-			return {
-				letter: question.letter,
-				definition: definition || question.definition
-			};
-		});
+		state.configTeams = buildDefaultTeamConfigs(1);
+		startGame(true);
 	}
 
 	function startCustomGame() {
 		applyCustomSettings();
-		startGame();
+		startGame(true);
+	}
+
+	function playPreparedTurn() {
+		if (state.phase !== 'ready') {
+			return;
+		}
+
+		state.phase = 'playing';
+		renderGame();
+		startInterval();
+	}
+
+	function tick() {
+		if (state.phase !== 'playing') {
+			return;
+		}
+
+		const team = getActiveTeam();
+
+		if (!team) {
+			return;
+		}
+
+		team.seconds -= 1;
+
+		if (refreshTeamCompletion(team, 'time')) {
+			passTurn();
+			return;
+		}
+
+		renderGame();
+	}
+
+	function markAnswer(status) {
+		if (state.phase !== 'playing') {
+			return;
+		}
+
+		const team = getActiveTeam();
+		const question = getActiveQuestion();
+
+		if (!team || !question || !isUnanswered(question)) {
+			return;
+		}
+
+		question.status = status;
+
+		if (status === 'correct') {
+			continueSameTeam(team);
+			return;
+		}
+
+		passTurnAfterQuestion(team);
+	}
+
+	function skipQuestion() {
+		markAnswer('skipped');
+	}
+
+	function continueSameTeam(team) {
+		if (refreshTeamCompletion(team)) {
+			passTurn();
+			return;
+		}
+
+		const nextIndex = findNextQuestionIndex(team, (team.currentIndex + 1) % team.questions.length);
+
+		if (nextIndex === -1) {
+			team.finished = true;
+			team.finishReason = 'completed';
+			passTurn();
+			return;
+		}
+
+		team.currentIndex = nextIndex;
+		renderGame();
+	}
+
+	function passTurnAfterQuestion(team) {
+		if (!team.finished) {
+			const nextQuestionIndex = findNextQuestionIndex(team, (team.currentIndex + 1) % team.questions.length);
+
+			if (nextQuestionIndex === -1) {
+				team.finished = true;
+				team.finishReason = 'completed';
+			} else {
+				team.currentIndex = nextQuestionIndex;
+			}
+		}
+
+		passTurn();
+	}
+
+	function passTurn() {
+		resetTimer();
+
+		const nextTeamIndex = findNextTeamIndex((state.activeTeamIndex + 1) % state.teams.length);
+
+		if (nextTeamIndex === -1) {
+			showResults();
+			return;
+		}
+
+		state.activeTeamIndex = nextTeamIndex;
+		state.phase = 'ready';
+		renderGame();
+	}
+
+	function togglePause() {
+		if (state.phase === 'playing') {
+			resetTimer();
+			state.phase = 'ready';
+			renderGame();
+		}
+	}
+
+	function finishGame() {
+		resetTimer();
+		state.teams.forEach(team => {
+			if (!team.finished) {
+				team.finished = true;
+				team.finishReason = 'manual';
+			}
+		});
+		showResults();
+	}
+
+	function showResults() {
+		resetTimer();
+		state.phase = 'results';
+		hide(elements.closeButton);
+		showOnly(elements.playAgainControls);
+		renderBoards();
+
+		elements.endTitle.textContent = 'Partida terminada';
+		elements.endSubtitle.textContent = state.teams.map(team => {
+			const correct = team.questions.filter(question => question.status === 'correct').length;
+			const wrong = team.questions.filter(question => question.status === 'wrong').length;
+			const pending = getRemaining(team);
+
+			return `${team.name}: ${correct} aciertos, ${wrong} fallos, ${pending} pendientes.`;
+		}).join(' ');
 	}
 
 	function showMenu() {
 		resetTimer();
-		resetRosco();
-
-		state.running = false;
-		state.paused = false;
-		state.round = [];
-		state.currentIndex = 0;
-		state.configSeconds = DEFAULT_SECONDS;
-		state.seconds = DEFAULT_SECONDS;
-
-		elements.timeInput.value = DEFAULT_SECONDS;
+		state.phase = 'menu';
+		state.teams = createTeamsFromConfig();
+		state.activeTeamIndex = 0;
 		hide(elements.closeButton);
 		showOnly(elements.menuControls);
-		renderTimer();
-		renderScore();
-		renderPauseButton();
+		renderBoards();
 	}
 
 	function showConfig() {
-		state.configSeconds = clampSeconds(elements.timeInput.value);
-		elements.timeInput.value = state.configSeconds;
+		state.phase = 'config';
+		renderTeamConfig();
 		showOnly(elements.configControls);
 	}
 
-	function togglePause() {
-		if (!state.running) {
-			return;
+	function syncTeamCount() {
+		const count = clampTeamCount(elements.teamCount.value);
+		const nextConfigs = buildDefaultTeamConfigs(count);
+
+		for (let index = 0; index < count; index++) {
+			if (state.configTeams[index]) {
+				nextConfigs[index] = state.configTeams[index];
+			}
 		}
 
-		state.paused = !state.paused;
-		renderPauseButton();
+		state.configTeams = nextConfigs;
+		elements.teamCount.value = String(count);
+		renderTeamConfig();
+	}
+
+	function applyCustomSettings() {
+		const count = clampTeamCount(elements.teamCount.value);
+
+		state.configTeams = Array.from({ length: count }, (_, index) => {
+			const nameInput = elements.teamsConfig.querySelector(`[data-team-name="${index}"]`);
+			const timeInput = elements.teamsConfig.querySelector(`[data-team-time="${index}"]`);
+
+			return {
+				name: nameInput && nameInput.value.trim() ? nameInput.value.trim() : `Equipo ${index + 1}`,
+				seconds: timeInput ? clampSeconds(timeInput.value) : DEFAULT_SECONDS,
+				questions: defaultQuestions.map(question => {
+					const field = elements.teamsConfig.querySelector(`[data-team-definition="${index}-${question.letter}"]`);
+
+					return {
+						letter: question.letter,
+						definition: field ? field.value.trim() : ''
+					};
+				})
+			};
+		});
+
+		elements.teamCount.value = String(count);
+	}
+
+	function buildTeamConfig(teamConfig, index) {
+		const wrapper = document.createElement('details');
+		const summary = document.createElement('summary');
+		const fields = document.createElement('div');
+		const nameGroup = document.createElement('label');
+		const nameLabel = document.createElement('span');
+		const nameInput = document.createElement('input');
+		const timeGroup = document.createElement('label');
+		const timeLabel = document.createElement('span');
+		const timeInput = document.createElement('input');
+		const definitions = document.createElement('div');
+
+		wrapper.className = 'team-config';
+		wrapper.open = index === 0;
+		summary.className = 'team-config__summary';
+		summary.textContent = teamConfig.name || `Equipo ${index + 1}`;
+		fields.className = 'team-config__fields';
+
+		nameGroup.className = 'config-field';
+		nameLabel.className = 'field-label';
+		nameLabel.textContent = 'Nombre';
+		nameInput.className = 'text-input';
+		nameInput.type = 'text';
+		nameInput.value = teamConfig.name || `Equipo ${index + 1}`;
+		nameInput.dataset.teamName = index;
+		nameGroup.append(nameLabel, nameInput);
+
+		timeGroup.className = 'config-field';
+		timeLabel.className = 'field-label';
+		timeLabel.textContent = 'Tiempo';
+		timeInput.className = 'time-input';
+		timeInput.type = 'number';
+		timeInput.min = MIN_SECONDS;
+		timeInput.max = MAX_SECONDS;
+		timeInput.value = clampSeconds(teamConfig.seconds);
+		timeInput.dataset.teamTime = index;
+		timeGroup.append(timeLabel, timeInput);
+
+		definitions.className = 'definitions-list';
+		teamConfig.questions.forEach(question => {
+			definitions.append(buildDefinitionEditor(question, index));
+		});
+
+		fields.append(nameGroup, timeGroup, definitions);
+		wrapper.append(summary, fields);
+
+		return wrapper;
+	}
+
+	function buildDefinitionEditor(question, teamIndex) {
+		const wrapper = document.createElement('label');
+		const label = document.createElement('span');
+		const textarea = document.createElement('textarea');
+
+		wrapper.className = 'definition-field';
+		label.className = 'definition-field__letter';
+		label.textContent = question.letter;
+		textarea.className = 'definition-field__input';
+		textarea.value = question.definition;
+		textarea.placeholder = `Definicion ${question.letter}`;
+		textarea.rows = 2;
+		textarea.dataset.teamDefinition = `${teamIndex}-${question.letter}`;
+
+		wrapper.append(label, textarea);
+
+		return wrapper;
+	}
+
+	function renderTeamConfig() {
+		const fragment = document.createDocumentFragment();
+
+		state.configTeams.forEach((teamConfig, index) => {
+			fragment.append(buildTeamConfig(teamConfig, index));
+		});
+
+		elements.teamsConfig.replaceChildren(fragment);
 	}
 
 	function handleKeyboard(event) {
-		if (event.target === elements.timeInput && event.key === 'Enter') {
-			startCustomGame();
-			return;
-		}
-
-		if (!state.running) {
+		if (state.phase !== 'playing') {
 			return;
 		}
 
@@ -415,50 +686,27 @@
 		}
 	}
 
-	function buildDefinitionEditor(question) {
-		const wrapper = document.createElement('label');
-		const label = document.createElement('span');
-		const textarea = document.createElement('textarea');
-
-		wrapper.className = 'definition-field';
-		label.className = 'definition-field__letter';
-		label.textContent = question.letter;
-		textarea.className = 'definition-field__input';
-		textarea.value = question.definition;
-		textarea.rows = 2;
-		textarea.dataset.letter = question.letter;
-
-		wrapper.append(label, textarea);
-		return wrapper;
-	}
-
-	function renderDefinitionEditors() {
-		const fragment = document.createDocumentFragment();
-
-		defaultQuestions.forEach(question => {
-			fragment.append(buildDefinitionEditor(question));
-		});
-
-		elements.definitionsList.replaceChildren(fragment);
-	}
-
 	function bindEvents() {
 		elements.quickGameButton.addEventListener('click', startQuickGame);
 		elements.customizeGameButton.addEventListener('click', showConfig);
 		elements.startCustomGameButton.addEventListener('click', startCustomGame);
 		elements.backMenuButton.addEventListener('click', showMenu);
 		elements.menuButton.addEventListener('click', showMenu);
-		elements.playAgainButton.addEventListener('click', startGame);
+		elements.playAgainButton.addEventListener('click', () => startGame(true));
 		elements.goodButton.addEventListener('click', () => markAnswer('correct'));
 		elements.wrongButton.addEventListener('click', () => markAnswer('wrong'));
 		elements.skipButton.addEventListener('click', skipQuestion);
 		elements.pauseButton.addEventListener('click', togglePause);
-		elements.closeButton.addEventListener('click', () => endGame('manual'));
+		elements.playTurnButton.addEventListener('click', playPreparedTurn);
+		elements.closeButton.addEventListener('click', finishGame);
+		elements.teamCount.addEventListener('change', syncTeamCount);
 		document.addEventListener('keydown', handleKeyboard);
 	}
 
 	function init() {
-		renderDefinitionEditors();
+		elements.teamCount.value = String(DEFAULT_TEAM_COUNT);
+		state.teams = createTeamsFromConfig();
+		renderTeamConfig();
 		showMenu();
 		bindEvents();
 	}
