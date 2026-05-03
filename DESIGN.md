@@ -1,8 +1,8 @@
-# Design System: Pasapalabra
+# Design System: Geckoders Rosco
 **Project ID:** local-pasapalabra
 
 ## 1. Visual Theme & Atmosphere
-Panel de concurso limpio, directo y preparado para uso en directo. La pantalla combina una zona de escenario oscura para el rosco con una consola clara para el presentador. La interfaz debe sentirse precisa, visible a distancia y sin decoracion innecesaria.
+Panel de concurso limpio, directo y preparado para uso en directo como producto reusable de Geckoders. La pantalla combina una zona de escenario oscura para el rosco con una consola clara para el presentador. La interfaz debe sentirse precisa, visible a distancia y sin decoracion innecesaria.
 
 ## 2. Color Palette & Roles
 - Stage Ink (#14141A): fondo principal del rosco y zona de tension visual.

@@ -439,7 +439,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font-family: inherit;
 }
 
@@ -1014,12 +1015,27 @@ input {
 }
 
 .lead {
-  max-width: 22rem;
+  max-width: 27rem;
   margin: 1rem 0 1.5rem;
   color: #6b7280;
   font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.45;
+}
+
+.section-title {
+  margin: 0 0 1rem;
+  color: #1e2430;
+  font-size: clamp(1.8rem, 6vw, 2.7rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.menu-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 /* New Game
@@ -1061,6 +1077,57 @@ input {
   align-self: center;
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+.definitions-list {
+  display: grid;
+  max-height: min(42vh, 24rem);
+  margin: 0 0 1.25rem;
+  padding-right: 0.4rem;
+  gap: 0.65rem;
+  overflow: auto;
+}
+@media (min-width: 54.75em) {
+  .definitions-list {
+    max-height: min(48vh, 28rem);
+  }
+}
+
+.definition-field {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+}
+
+.definition-field__letter {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #20222d;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.definition-field__input {
+  min-height: 4.7rem;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #d9deea;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #1e2430;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.35;
+  resize: vertical;
+}
+.definition-field__input:focus {
+  border-color: #2166e8;
+  outline: 3px solid #dce7ff;
 }
 
 /* Questions

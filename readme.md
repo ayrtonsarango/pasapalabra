@@ -1,11 +1,13 @@
-# Pasapalabra
+# Geckoders Rosco
 
-App web estatica para controlar una partida tipo Pasapalabra.
+App web estatica de Geckoders para controlar una partida tipo Pasapalabra.
 
 ## Que hace
 
 - Muestra el rosco completo de la A a la Z.
-- Permite elegir el tiempo de partida.
+- Permite jugar rapido con 250 segundos.
+- Permite configurar el tiempo de partida.
+- Permite editar la definicion de cada letra antes de empezar.
 - Marca cada letra como **bien**, **mal** o **pasapalabra**.
 - Mantiene las letras pasadas como pendientes.
 - Permite pausar, reanudar, terminar y jugar de nuevo.
@@ -14,6 +16,11 @@ App web estatica para controlar una partida tipo Pasapalabra.
 ## Como usarla
 
 Abre `index.html` en el navegador.
+
+En el menu inicial:
+
+- `Jugar ahora`: inicia la partida por defecto con 250 segundos.
+- `Configurar`: permite cambiar tiempo y definiciones.
 
 Durante la partida:
 
@@ -49,3 +56,5 @@ npm run check:js
 - `scss/`: estilos fuente.
 - `css/style.css`: CSS compilado.
 - `DESIGN.md`: guia visual usada para el restyling.
+
+Contacto: https://geckoders.es/

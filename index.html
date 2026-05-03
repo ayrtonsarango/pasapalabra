@@ -5,13 +5,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" href="css/style.css">
-	<title>Pasapalabra</title>
+	<title>Pasapalabra Geckoders</title>
 </head>
 <body>
 	<main class="game">
 		<section class="circle-container" aria-label="Rosco">
 			<div class="title-container">
-				<p class="title">PASAPALABRA</p>
+				<p class="title">GECKODERS</p>
 			</div>
 			<ul class="circle" aria-label="Rosco de letras">
 				<li class="item">A</li>
@@ -57,15 +57,28 @@
 			<button id="js--close" class="close-button icon-close hidden" type="button" aria-label="Terminar partida"></button>
 
 			<div id="js--ng-controls" class="control-view ng-controls">
-				<p class="eyebrow">Panel de partida</p>
-				<h1 class="control-title">Pasapalabra</h1>
-				<p class="lead">Felicidades Lu, Ale, Javi y Marta!</p>
+				<p class="eyebrow">Panel Geckoders</p>
+				<h1 class="control-title">Geckoders</h1>
+				<p class="lead">Rosco reusable para partidas guiadas. Elige partida rapida o personaliza tiempo y definiciones.</p>
+				<div class="menu-actions">
+					<button id="js--quick-game" class="btn btn--primary" type="button"><i class="icon-play"></i>Jugar ahora</button>
+					<button id="js--customize-game" class="btn btn--blue" type="button">Configurar</button>
+				</div>
+			</div>
+
+			<div id="js--config-controls" class="control-view config-controls hidden">
+				<p class="eyebrow">Configuracion</p>
+				<h2 class="section-title">Ajustar rosco</h2>
 				<div id="js--time-config" class="time-config">
 					<label class="field-label" for="js--time-input">Tiempo</label>
 					<input id="js--time-input" class="time-input" type="number" value="250" min="5" max="300">
 					<span class="field-unit">segundos</span>
 				</div>
-				<button id="js--new-game" class="btn btn--primary" type="button"><i class="icon-play"></i>Jugar</button>
+				<div id="js--definitions-list" class="definitions-list" aria-label="Definiciones por letra"></div>
+				<div class="menu-actions">
+					<button id="js--start-custom-game" class="btn btn--primary" type="button"><i class="icon-play"></i>Jugar con cambios</button>
+					<button id="js--back-menu" class="btn btn--blue" type="button">Volver</button>
+				</div>
 			</div>
 
 			<div id="js--question-controls" class="control-view question-controls hidden">
@@ -85,12 +98,15 @@
 				<p class="eyebrow">Resultado</p>
 				<p id="js--end-title" class="title"></p>
 				<p id="js--end-subtitle" class="subtitle"></p>
-				<button id="js--pa" class="btn btn--primary" type="button"><i class="icon-loop"></i>Jugar de nuevo</button>
+				<div class="menu-actions">
+					<button id="js--pa" class="btn btn--primary" type="button"><i class="icon-loop"></i>Jugar de nuevo</button>
+					<button id="js--menu" class="btn btn--blue" type="button">Menu</button>
+				</div>
 			</div>
 		</section>
 	</main>
 	<footer>
-		<p>Made by <a href="https://www.twitter.com/txinoloko">Ayrton and Pats</a></p>
+		<p>Made by <a href="https://geckoders.es/">Geckoders</a></p>
 	</footer>
 	<script src="js/app.js"></script>
 </body>

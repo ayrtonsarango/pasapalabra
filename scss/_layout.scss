@@ -20,7 +20,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
 	font-family: inherit;
 }
 
@@ -336,12 +337,27 @@ input {
 }
 
 .lead {
-	max-width: 22rem;
+	max-width: 27rem;
 	margin: 1rem 0 1.5rem;
 	color: $c-text-muted;
 	font-size: 1.05rem;
 	font-weight: 600;
 	line-height: 1.45;
+}
+
+.section-title {
+	margin: 0 0 1rem;
+	color: $c-text;
+	font-size: clamp(1.8rem, 6vw, 2.7rem);
+	font-weight: 900;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.menu-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .75rem;
 }
 
 /* New Game
@@ -384,6 +400,57 @@ input {
 	align-self: center;
 	color: $c-text-muted;
 	font-size: .9rem;
+}
+
+.definitions-list {
+	display: grid;
+	max-height: min(42vh, 24rem);
+	margin: 0 0 1.25rem;
+	padding-right: .4rem;
+	gap: .65rem;
+	overflow: auto;
+
+	@media (min-width: 54.75em) {
+		max-height: min(48vh, 28rem);
+	}
+}
+
+.definition-field {
+	display: grid;
+	grid-template-columns: 2.5rem minmax(0, 1fr);
+	gap: .65rem;
+	align-items: start;
+}
+
+.definition-field__letter {
+	display: grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 50%;
+	background-color: $c-stage-soft;
+	color: $c-white;
+	font-size: .9rem;
+	font-weight: 900;
+}
+
+.definition-field__input {
+	min-height: 4.7rem;
+	width: 100%;
+	padding: .7rem .8rem;
+	border: 1px solid $c-border;
+	border-radius: $radius;
+	background-color: $c-white;
+	color: $c-text;
+	font-size: .9rem;
+	font-weight: 600;
+	line-height: 1.35;
+	resize: vertical;
+
+	&:focus {
+		border-color: $c-base;
+		outline: 3px solid $c-base-soft;
+	}
 }
 
 /* Questions
