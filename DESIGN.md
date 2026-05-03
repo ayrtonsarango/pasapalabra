@@ -1,8 +1,8 @@
-# Design System: Geckoders Rosco
+# Design System: Pasapalabra by Geckoders
 **Project ID:** local-pasapalabra
 
 ## 1. Visual Theme & Atmosphere
-Panel de concurso limpio, directo y preparado para uso en directo como producto reusable de Geckoders. La pantalla combina una zona de escenario oscura para el rosco con una consola clara para el presentador. La interfaz debe sentirse precisa, visible a distancia y sin decoracion innecesaria.
+Concurso limpio, directo y preparado para uso en directo como producto reusable de Geckoders. La pantalla combina una zona de escenario oscura para el rosco con una consola clara para el presentador. La interfaz debe sentirse precisa, visible a distancia y sin decoracion innecesaria.
 
 ## 2. Color Palette & Roles
 - Stage Ink (#14141A): fondo principal del rosco y zona de tension visual.
@@ -17,12 +17,12 @@ Panel de concurso limpio, directo y preparado para uso en directo como producto 
 - White (#FFFFFF): texto sobre zonas oscuras y bordes de alto contraste.
 
 ## 2.1 Multi Rosco Themes
-- Rosco 1 Ocean (#2166E8): equipo principal, activo por defecto.
-- Rosco 2 Ember (#D96B1B): segundo equipo, contraste calido.
-- Rosco 3 Forest (#1FA971): tercer equipo, lectura de avance estable.
-- Rosco 4 Violet (#8A5CF6): cuarto equipo, diferenciacion clara sin mezclar estados.
+- Rosco 1 Ocean (#4F8CFF): equipo principal, luminoso sobre fondo oscuro.
+- Rosco 2 Ember (#FF7A59): segundo equipo, contraste calido sin invadir el rojo de error.
+- Rosco 3 Forest (#2DBF9F): tercer equipo, lectura fresca y estable.
+- Rosco 4 Gold (#D6A636): cuarto equipo, diferenciacion clara sin mezclar estados.
 
-Cada rosco conserva los mismos colores semanticos de estado: verde para acierto, rojo para fallo y ambar para pasapalabra. El color de equipo solo identifica el tablero activo y no compite con los estados de respuesta.
+Cada rosco puede ajustar su color interior desde configuracion. Ese color vive en el brillo del centro, la letra activa y el foco del turno; no se usa un contenedor rectangular alrededor del tablero. Los estados siguen siendo semanticos y compartidos: verde para acierto, rojo para fallo y ambar para pasapalabra.
 
 ## 3. Typography Rules
 Tipografia de sistema, rapida y sin dependencia externa. Titulares con peso fuerte y tamanos contenidos; controles y estados con texto corto, mayusculas moderadas y espaciado normal.
@@ -30,7 +30,8 @@ Tipografia de sistema, rapida y sin dependencia externa. Titulares con peso fuer
 ## 4. Component Stylings
 * **Buttons:** rectangulos de 8px para acciones principales, color solido, alto generoso y estados hover/focus visibles.
 * **Close action:** boton circular pequeno, blanco, con una X dibujada por CSS y acento rojo sutil.
-* **Rosco:** letras circulares, separacion regular, estado activo con anillo luminoso.
+* **Rosco:** letras circulares, separacion regular, centro tintado por equipo y estado activo con anillo luminoso.
+* **Color picker:** selector circular compacto para definir el color interior del rosco sin ocupar espacio operativo.
 * **Scoreboard:** dos modulos compactos con etiqueta pequena y numero grande.
 * **Inputs:** superficie blanca, borde sutil y foco azul claro.
 

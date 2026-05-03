@@ -49,6 +49,15 @@ class Element {
 		this.min = '';
 		this.max = '';
 		this.placeholder = '';
+		this.style = {
+			values: {},
+			setProperty(name, value) {
+				this.values[name] = value;
+			},
+			getPropertyValue(name) {
+				return this.values[name] || '';
+			}
+		};
 	}
 
 	set className(value) {
@@ -216,12 +225,22 @@ elements['js--team-count'].value = '3';
 elements['js--team-count'].listeners.change();
 assert(elements['js--teams-config'].children.length === 3, 'config should render three team configs');
 
+elements['js--teams-config'].querySelector('[data-team-name="0"]').value = 'Azul temporal';
+elements['js--teams-config'].querySelector('[data-team-color="0"]').value = '#224466';
+elements['js--team-count'].value = '4';
+elements['js--team-count'].listeners.change();
+assert(elements['js--teams-config'].querySelector('[data-team-name="0"]').value === 'Azul temporal', 'team edits should survive team count changes');
+assert(elements['js--teams-config'].querySelector('[data-team-color="0"]').value === '#224466', 'team colors should survive team count changes');
+elements['js--team-count'].value = '3';
+elements['js--team-count'].listeners.change();
+
 elements['js--teams-config'].querySelector('[data-team-name="0"]').value = 'Azul';
 elements['js--teams-config'].querySelector('[data-team-name="1"]').value = 'Naranja';
 elements['js--teams-config'].querySelector('[data-team-name="2"]').value = 'Verde';
 elements['js--teams-config'].querySelector('[data-team-time="0"]').value = '250';
 elements['js--teams-config'].querySelector('[data-team-time="1"]').value = '12';
 elements['js--teams-config'].querySelector('[data-team-time="2"]').value = '5';
+elements['js--teams-config'].querySelector('[data-team-color="1"]').value = '#336699';
 elements['js--teams-config'].querySelector('[data-team-definition="0-A"]').value = 'Def A Azul';
 elements['js--teams-config'].querySelector('[data-team-definition="1-A"]').value = 'Def A Naranja';
 elements['js--teams-config'].querySelector('[data-team-definition="2-A"]').value = 'Def A Verde';
@@ -229,6 +248,7 @@ elements['js--start-custom-game'].click();
 
 assert(elements['js--boards'].children.length === 3, 'game should render three boards');
 assert(boardName(0) === 'Azul', 'team 1 name should apply');
+assert(board(1).style.getPropertyValue('--team-accent') === '#336699', 'custom board color should apply');
 assert(elements['js--hint'].textContent === 'A', 'first active letter should be visible while playing');
 assert(elements['js--definition'].textContent === 'Def A Azul', 'active definition should be visible while playing');
 assert(boardState(0) === 'En juego', 'team 1 should be playing');

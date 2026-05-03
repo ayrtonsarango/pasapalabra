@@ -7,7 +7,7 @@
 	const DEFAULT_TEAM_COUNT = 1;
 	const MAX_TEAMS = 4;
 	const UNANSWERED_STATUSES = ['pending', 'skipped'];
-	const BOARD_THEMES = ['ocean', 'ember', 'forest', 'violet'];
+	const DEFAULT_TEAM_COLORS = ['#4f8cff', '#ff7a59', '#2dbf9f', '#d6a636'];
 	const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 	const READY_MESSAGE = 'Listo para el siguiente equipo.';
 
@@ -55,6 +55,7 @@
 		return Array.from({ length: count }, (_, index) => ({
 			name: `Equipo ${index + 1}`,
 			seconds: DEFAULT_SECONDS,
+			color: DEFAULT_TEAM_COLORS[index % DEFAULT_TEAM_COLORS.length],
 			questions: copyQuestions(defaultQuestions)
 		}));
 	}
@@ -81,6 +82,24 @@
 		}
 
 		return Math.min(Math.max(count, 1), MAX_TEAMS);
+	}
+
+	function normalizeColor(value, fallback) {
+		if (typeof value === 'string' && /^#[0-9a-f]{6}$/i.test(value.trim())) {
+			return value.trim().toLowerCase();
+		}
+
+		return fallback;
+	}
+
+	function hexToRgba(hex, alpha) {
+		const normalized = normalizeColor(hex, DEFAULT_TEAM_COLORS[0]).slice(1);
+		const value = Number.parseInt(normalized, 16);
+		const red = (value >> 16) & 255;
+		const green = (value >> 8) & 255;
+		const blue = value & 255;
+
+		return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 	}
 
 	function isUnanswered(question) {
@@ -122,10 +141,13 @@
 	}
 
 	function createTeam(config, index) {
+		const fallbackColor = DEFAULT_TEAM_COLORS[index % DEFAULT_TEAM_COLORS.length];
+		const color = normalizeColor(config.color, fallbackColor);
+
 		return {
 			id: index,
 			name: config.name || `Equipo ${index + 1}`,
-			theme: BOARD_THEMES[index % BOARD_THEMES.length],
+			color,
 			configSeconds: clampSeconds(config.seconds),
 			seconds: clampSeconds(config.seconds),
 			currentIndex: 0,
@@ -225,9 +247,12 @@
 		const timerItem = buildScoreItem('Tiempo', team.seconds);
 		const pendingItem = buildScoreItem('Pendientes', getRemaining(team));
 
-		board.className = `team-board team-board--${team.theme}`;
+		board.className = 'team-board';
 		board.dataset.teamId = team.id;
 		board.setAttribute('aria-label', team.name);
+		board.style.setProperty('--team-accent', team.color);
+		board.style.setProperty('--team-core', hexToRgba(team.color, .2));
+		board.style.setProperty('--team-glow', hexToRgba(team.color, .26));
 
 		if (team.finished) {
 			board.classList.add('is-finished');
@@ -554,11 +579,12 @@
 
 	function syncTeamCount() {
 		const count = clampTeamCount(elements.teamCount.value);
+		const currentConfigs = Array.from({ length: state.configTeams.length }, (_, index) => readTeamConfigFromForm(index));
 		const nextConfigs = buildDefaultTeamConfigs(count);
 
 		for (let index = 0; index < count; index++) {
-			if (state.configTeams[index]) {
-				nextConfigs[index] = state.configTeams[index];
+			if (currentConfigs[index]) {
+				nextConfigs[index] = currentConfigs[index];
 			}
 		}
 
@@ -570,25 +596,31 @@
 	function applyCustomSettings() {
 		const count = clampTeamCount(elements.teamCount.value);
 
-		state.configTeams = Array.from({ length: count }, (_, index) => {
-			const nameInput = elements.teamsConfig.querySelector(`[data-team-name="${index}"]`);
-			const timeInput = elements.teamsConfig.querySelector(`[data-team-time="${index}"]`);
-
-			return {
-				name: nameInput && nameInput.value.trim() ? nameInput.value.trim() : `Equipo ${index + 1}`,
-				seconds: timeInput ? clampSeconds(timeInput.value) : DEFAULT_SECONDS,
-				questions: defaultQuestions.map(question => {
-					const field = elements.teamsConfig.querySelector(`[data-team-definition="${index}-${question.letter}"]`);
-
-					return {
-						letter: question.letter,
-						definition: field ? field.value.trim() : ''
-					};
-				})
-			};
-		});
-
+		state.configTeams = Array.from({ length: count }, (_, index) => readTeamConfigFromForm(index));
 		elements.teamCount.value = String(count);
+	}
+
+	function readTeamConfigFromForm(index) {
+		const fallbackConfig = state.configTeams[index] || {};
+		const fallbackColor = DEFAULT_TEAM_COLORS[index % DEFAULT_TEAM_COLORS.length];
+		const nameInput = elements.teamsConfig.querySelector(`[data-team-name="${index}"]`);
+		const timeInput = elements.teamsConfig.querySelector(`[data-team-time="${index}"]`);
+		const colorInput = elements.teamsConfig.querySelector(`[data-team-color="${index}"]`);
+
+		return {
+			name: nameInput && nameInput.value.trim() ? nameInput.value.trim() : fallbackConfig.name || `Equipo ${index + 1}`,
+			seconds: timeInput ? clampSeconds(timeInput.value) : clampSeconds(fallbackConfig.seconds),
+			color: normalizeColor(colorInput?.value || fallbackConfig.color, fallbackColor),
+			questions: defaultQuestions.map(question => {
+				const field = elements.teamsConfig.querySelector(`[data-team-definition="${index}-${question.letter}"]`);
+				const fallbackQuestion = fallbackConfig.questions?.find(item => item.letter === question.letter);
+
+				return {
+					letter: question.letter,
+					definition: field ? field.value.trim() : fallbackQuestion?.definition || ''
+				};
+			})
+		};
 	}
 
 	function buildTeamConfig(teamConfig, index) {
@@ -601,6 +633,9 @@
 		const timeGroup = document.createElement('label');
 		const timeLabel = document.createElement('span');
 		const timeInput = document.createElement('input');
+		const colorGroup = document.createElement('label');
+		const colorLabel = document.createElement('span');
+		const colorInput = document.createElement('input');
 		const definitions = document.createElement('div');
 
 		wrapper.className = 'team-config';
@@ -629,12 +664,21 @@
 		timeInput.dataset.teamTime = index;
 		timeGroup.append(timeLabel, timeInput);
 
+		colorGroup.className = 'config-field config-field--inline';
+		colorLabel.className = 'field-label';
+		colorLabel.textContent = 'Color';
+		colorInput.className = 'color-input';
+		colorInput.type = 'color';
+		colorInput.value = normalizeColor(teamConfig.color, DEFAULT_TEAM_COLORS[index % DEFAULT_TEAM_COLORS.length]);
+		colorInput.dataset.teamColor = index;
+		colorGroup.append(colorLabel, colorInput);
+
 		definitions.className = 'definitions-list';
 		teamConfig.questions.forEach(question => {
 			definitions.append(buildDefinitionEditor(question, index));
 		});
 
-		fields.append(nameGroup, timeGroup, definitions);
+		fields.append(nameGroup, timeGroup, colorGroup, definitions);
 		wrapper.append(summary, fields);
 
 		return wrapper;

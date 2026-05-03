@@ -522,35 +522,22 @@ button:disabled {
 }
 
 .team-board {
-  --team-accent: #2166e8;
+  --team-accent: #4f8cff;
+  --team-core: rgba(79, 140, 255, .2);
+  --team-glow: rgba(79, 140, 255, .26);
   position: relative;
   display: grid;
   justify-items: center;
   width: min-content;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0)), radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 62%);
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.2);
+  padding: 0.35rem;
 }
-.team-board--ocean {
-  --team-accent: #2166e8;
+.team-board.is-active .circle::before {
+  border-color: var(--team-accent);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.32), 0 0 0 3px var(--team-glow), inset 0 0 5rem var(--team-core);
 }
-.team-board--ember {
-  --team-accent: #d96b1b;
-}
-.team-board--forest {
-  --team-accent: #1fa971;
-}
-.team-board--violet {
-  --team-accent: #8a5cf6;
-}
-.team-board.is-active {
-  border-color: color-mix(in srgb, var(--team-accent), #ffffff 36%);
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.24), 0 0 0 3px color-mix(in srgb, var(--team-accent), transparent 62%);
-}
-.team-board.is-ready {
-  border-color: rgba(255, 255, 255, 0.34);
+.team-board.is-ready .circle::before {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.22), inset 0 0 4rem var(--team-core);
 }
 .team-board.is-finished {
   opacity: 0.6;
@@ -569,10 +556,11 @@ button:disabled {
   content: "";
   position: absolute;
   inset: 12%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.025);
-  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.28);
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 44%), radial-gradient(circle at 50% 55%, var(--team-core), rgba(255, 255, 255, 0.02) 62%);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28), inset 0 0 3.5rem rgba(255, 255, 255, 0.03);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .circle > * {
   display: block;
@@ -678,7 +666,7 @@ button:disabled {
 .circle .item--active {
   border-color: #ffffff;
   background-color: var(--team-accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--team-accent), transparent 64%), 0 0 1.5rem color-mix(in srgb, var(--team-accent), transparent 36%);
+  box-shadow: 0 0 0 4px var(--team-glow), 0 0 1.5rem var(--team-glow);
 }
 .circle .item--success {
   border-color: rgba(255, 255, 255, 0.55);
@@ -930,6 +918,11 @@ button:disabled {
   margin-bottom: 1rem;
 }
 
+.config-field--inline {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
 .field-label {
   color: #1e2430;
   font-size: 0.82rem;
@@ -958,6 +951,31 @@ button:disabled {
 
 .time-input {
   width: 8rem;
+}
+
+.color-input {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.2rem;
+  border: 1px solid #d9deea;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+.color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.color-input::-webkit-color-swatch {
+  border: 0;
+  border-radius: 50%;
+}
+.color-input::-moz-color-swatch {
+  border: 0;
+  border-radius: 50%;
+}
+.color-input:focus {
+  border-color: #2166e8;
+  outline: 3px solid #dce7ff;
 }
 
 .teams-config {

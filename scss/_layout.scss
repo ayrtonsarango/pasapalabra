@@ -105,42 +105,23 @@ button:disabled {
 }
 
 .team-board {
-	--team-accent: #2166e8;
+	--team-accent: #4f8cff;
+	--team-core: rgba(79, 140, 255, .2);
+	--team-glow: rgba(79, 140, 255, .26);
 	position: relative;
 	display: grid;
 	justify-items: center;
 	width: min-content;
-	padding: 1rem;
-	border: 1px solid rgba(255, 255, 255, .12);
-	border-radius: $radius;
-	background:
-		linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, 0)),
-		radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 62%);
-	box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+	padding: .35rem;
 
-	&--ocean {
-		--team-accent: #2166e8;
+	&.is-active .circle::before {
+		border-color: var(--team-accent);
+		box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .32), 0 0 0 3px var(--team-glow), inset 0 0 5rem var(--team-core);
 	}
 
-	&--ember {
-		--team-accent: #d96b1b;
-	}
-
-	&--forest {
-		--team-accent: #1fa971;
-	}
-
-	&--violet {
-		--team-accent: #8a5cf6;
-	}
-
-	&.is-active {
-		border-color: color-mix(in srgb, var(--team-accent), #ffffff 36%);
-		box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .24), 0 0 0 3px color-mix(in srgb, var(--team-accent), transparent 62%);
-	}
-
-	&.is-ready {
-		border-color: rgba(255, 255, 255, .34);
+	&.is-ready .circle::before {
+		border-color: rgba(255, 255, 255, .2);
+		box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .22), inset 0 0 4rem var(--team-core);
 	}
 
 	&.is-finished {
@@ -161,10 +142,13 @@ button:disabled {
 		content: '';
 		position: absolute;
 		inset: 12%;
-		border: 1px solid rgba(255, 255, 255, .1);
+		border: 1px solid rgba(255, 255, 255, .14);
 		border-radius: 50%;
-		background-color: rgba(255, 255, 255, .025);
-		box-shadow: 0 1.5rem 5rem $c-stage-shadow;
+		background:
+			radial-gradient(circle at 50% 35%, rgba(255, 255, 255, .08), rgba(255, 255, 255, 0) 44%),
+			radial-gradient(circle at 50% 55%, var(--team-core), rgba(255, 255, 255, .02) 62%);
+		box-shadow: 0 1.5rem 4rem $c-stage-shadow, inset 0 0 3.5rem rgba(255, 255, 255, .03);
+		transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
 	}
 
 	> * {
@@ -205,7 +189,7 @@ button:disabled {
 		&--active {
 			border-color: $c-white;
 			background-color: var(--team-accent);
-			box-shadow: 0 0 0 4px color-mix(in srgb, var(--team-accent), transparent 64%), 0 0 1.5rem color-mix(in srgb, var(--team-accent), transparent 36%);
+			box-shadow: 0 0 0 4px var(--team-glow), 0 0 1.5rem var(--team-glow);
 		}
 
 		&--success {
@@ -480,6 +464,11 @@ button:disabled {
 	margin-bottom: 1rem;
 }
 
+.config-field--inline {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+}
+
 .field-label {
 	color: $c-text;
 	font-size: .82rem;
@@ -507,6 +496,35 @@ button:disabled {
 
 .time-input {
 	width: 8rem;
+}
+
+.color-input {
+	width: 3rem;
+	height: 3rem;
+	padding: .2rem;
+	border: 1px solid $c-border;
+	border-radius: 50%;
+	background-color: $c-white;
+	cursor: pointer;
+
+	&::-webkit-color-swatch-wrapper {
+		padding: 0;
+	}
+
+	&::-webkit-color-swatch {
+		border: 0;
+		border-radius: 50%;
+	}
+
+	&::-moz-color-swatch {
+		border: 0;
+		border-radius: 50%;
+	}
+
+	&:focus {
+		border-color: $c-base;
+		outline: 3px solid $c-base-soft;
+	}
 }
 
 .teams-config {
